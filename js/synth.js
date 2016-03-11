@@ -1,5 +1,5 @@
 /* This is mainly a wrapper class to play Audio through
-    the Web Audioppprggl;kdfhnkldfghkldfghjkl;hdfgjkl;ghdfkl;'hfgjklghdfjklfghdjkl;dfghisdfgyioetwrertnkjdfgAPI using an OscillatorNode connected
+    the Web Audio API using an OscillatorNode connected
     to an AudioContext.
 */
 function Synth(opts){
