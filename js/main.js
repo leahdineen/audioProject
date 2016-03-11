@@ -18,8 +18,12 @@ document.addEventListener("DOMContentLoaded", function(event){
 });
 
 document.addEventListener("keydown", function(event){
-    var key = String.fromCharCode(event.which || event.keyCode);
-    synth.play();
+    var key = codeToChar(event.which || event.keyCode);
+    var freq = keyToFrequency(key);
+    if (freq !== 0){
+        synth.setFrequency(freq);
+        synth.play();
+    }
 });
 
 document.addEventListener("keyup", function(event){

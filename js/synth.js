@@ -30,10 +30,11 @@ Synth.prototype.play = function(delay){
 
     if (!this.isPlaying){
         this.oscillator = this.context.createOscillator();
+        
         // Set options up
-        for (var o in this.opts){
-            this.oscillator[o] = this.opts[o];
-        }
+        this.oscillator.type = this.opts.type;
+        this.oscillator.frequency.value = this.opts.frequency;
+
         this.oscillator.connect(this.context.destination);
         this.oscillator.start(delay || 0);
         this.isPlaying = true;
