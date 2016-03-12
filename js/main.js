@@ -14,7 +14,21 @@ var init = function(){
 
     var volume = document.forms["waveType"].elements["volume"];
     volume.addEventListener("change", function() {
-        synth.setVolume(this.value);
+        synth.setVolume(parseFloat(this.value));
+    });
+
+    var envelope = document.forms["waveType"].elements["envelope"];
+    envelope.elements["attack"].addEventListener("change", function(){
+        synth.envelopeOpts.attack = parseFloat(this.value);
+    });
+    envelope.elements["decay"].addEventListener("change", function(){
+        synth.envelopeOpts.decay = parseFloat(this.value);
+    });
+    envelope.elements["sustain"].addEventListener("change", function(){
+        synth.envelopeOpts.sustain = parseFloat(this.value);
+    });
+    envelope.elements["release"].addEventListener("change", function(){
+        synth.envelopeOpts.release = parseFloat(this.value);
     });
 };
 

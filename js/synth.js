@@ -16,6 +16,14 @@ Synth.prototype.init = function(opts){
     this.opts = opts || defaultOpts;
     this.isPlaying = false;
     this.volume = 0.5;
+
+    // Default envelope parameters
+    this.envelopeOpts = {
+        "attack" : 0,
+        "decay" : 0,
+        "sustain" : 0.5,
+        "release" : 0
+    };
 };
 
 Synth.prototype.setWaveForm = function(type){
@@ -41,8 +49,10 @@ Synth.prototype.play = function(delay){
         this.oscillator.type = this.opts.type;
         this.oscillator.frequency.value = this.opts.frequency;
 
+        // Amplitude for ADSR envelope
         this.gainNode = this.context.createGain();
 
+        // Master volume
         this.volumeNode = this.context.createGain();
         this.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
 
@@ -51,12 +61,10 @@ Synth.prototype.play = function(delay){
         this.gainNode.connect(this.volumeNode);
         this.volumeNode.connect(this.context.destination);
 
-        // Attack ramp - hardcoded until we get envelope sliders
-        this.gainNode.gain.setValueAtTime(0.001, this.context.currentTime);
-        this.gainNode.gain.linearRampToValueAtTime(1.0, this.context.currentTime + 0.5);
-
-        // Decay ramp - hardcoded until we get envelope sliders
-        this.gainNode.gain.linearRampToValueAtTime(0.5, this.context.currentTime + 1.0);
+        // Trigger our ADSR amplitude envelope
+        this.amplitudeEnv = new Envelope(this.envelopeOpts, this.context);
+        this.amplitudeEnv.connect(this.gainNode.gain);
+        this.amplitudeEnv.trigger();
         
         this.isPlaying = true;
     }
@@ -65,9 +73,9 @@ Synth.prototype.play = function(delay){
 Synth.prototype.stop = function(delay){
     if (this.isPlaying){
 
-        // Release ramp - hardcoded until we get envelope sliders
-        this.gainNode.gain.cancelScheduledValues(this.context.currentTime);
-        this.gainNode.gain.linearRampToValueAtTime(0.001, this.context.currentTime + 1.5);
+        // Start release phase of ADSR envelope
+        this.amplitudeEnv.finish();
+
         this.isPlaying = false;
     }
 };
