@@ -35,16 +35,29 @@ Synth.prototype.play = function(delay){
         this.oscillator.type = this.opts.type;
         this.oscillator.frequency.value = this.opts.frequency;
 
-        this.oscillator.connect(this.context.destination);
+        this.gainNode = this.context.createGain();
+
         this.oscillator.start(delay || 0);
+        this.oscillator.connect(this.gainNode);
+        this.gainNode.connect(this.context.destination);
+
+        // Attack ramp - hardcoded until we get envelope sliders
+        this.gainNode.gain.setValueAtTime(0.001, this.context.currentTime);
+        this.gainNode.gain.linearRampToValueAtTime(1.0, this.context.currentTime + 0.5);
+
+        // Decay ramp - hardcoded until we get envelope sliders
+        this.gainNode.gain.linearRampToValueAtTime(0.5, this.context.currentTime + 1.0);
+        
         this.isPlaying = true;
     }
 };
 
 Synth.prototype.stop = function(delay){
     if (this.isPlaying){
-        this.oscillator.stop();
-        this.oscillator.disconnect(this.context.destination);  
+
+        // Release ramp - hardcoded until we get envelope sliders
+        this.gainNode.gain.cancelScheduledValues(this.context.currentTime);
+        this.gainNode.gain.linearRampToValueAtTime(0.001, this.context.currentTime + 1.5);
         this.isPlaying = false;
     }
 };
