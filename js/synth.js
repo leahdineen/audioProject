@@ -15,6 +15,7 @@ Synth.prototype.init = function(opts){
     var defaultOpts = {type: 'square', frequency: 440};
     this.opts = opts || defaultOpts;
     this.isPlaying = false;
+    this.volume = 0.5;
 };
 
 Synth.prototype.setWaveForm = function(type){
@@ -24,6 +25,11 @@ Synth.prototype.setWaveForm = function(type){
 Synth.prototype.setFrequency = function(freq){
     // In Hz
     this.opts.frequency = freq;
+};
+
+Synth.prototype.setVolume = function(val){
+    this.volume = val;
+    this.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
 };
 
 Synth.prototype.play = function(delay){
@@ -37,9 +43,13 @@ Synth.prototype.play = function(delay){
 
         this.gainNode = this.context.createGain();
 
+        this.volumeNode = this.context.createGain();
+        this.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
+
         this.oscillator.start(delay || 0);
         this.oscillator.connect(this.gainNode);
-        this.gainNode.connect(this.context.destination);
+        this.gainNode.connect(this.volumeNode);
+        this.volumeNode.connect(this.context.destination);
 
         // Attack ramp - hardcoded until we get envelope sliders
         this.gainNode.gain.setValueAtTime(0.001, this.context.currentTime);
