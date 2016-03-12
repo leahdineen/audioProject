@@ -9,8 +9,13 @@ var init = function(){
     for(var i = 0, max = radios.length; i < max; i++) {
         radios[i].onclick = function() {
             synth.setWaveForm(this.value);
-        }
+        };
     }
+
+    var volume = document.forms["waveType"].elements["volume"];
+    volume.addEventListener("change", function() {
+        synth.setVolume(this.value);
+    });
 };
 
 document.addEventListener("DOMContentLoaded", function(event){
