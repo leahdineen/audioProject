@@ -24,15 +24,12 @@ Synth.prototype.init = function(opts){
         "sustain" : 0.5,
         "release" : 0
     };
+
+    this.voices = {};
 };
 
 Synth.prototype.setWaveForm = function(type){
     this.opts.type = type;
-};
-
-Synth.prototype.setFrequency = function(freq){
-    // In Hz
-    this.opts.frequency = freq;
 };
 
 Synth.prototype.setVolume = function(val){
@@ -40,42 +37,46 @@ Synth.prototype.setVolume = function(val){
     this.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
 };
 
-Synth.prototype.play = function(delay){
+Synth.prototype.play = function(freq){
 
-    if (!this.isPlaying){
-        this.oscillator = this.context.createOscillator();
+    if (this.voices[freq] === undefined){
+
+        this.voices[freq] = {};
+        voice = this.voices[freq];
+
+        voice.oscillator = this.context.createOscillator();
         
         // Set options up
-        this.oscillator.type = this.opts.type;
-        this.oscillator.frequency.value = this.opts.frequency;
+        voice.oscillator.type = this.opts.type;
+        voice.oscillator.frequency.value = freq
 
         // Amplitude for ADSR envelope
-        this.gainNode = this.context.createGain();
+        voice.gainNode = this.context.createGain();
 
         // Master volume
-        this.volumeNode = this.context.createGain();
-        this.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
+        voice.volumeNode = this.context.createGain();
+        voice.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
 
-        this.oscillator.start(delay || 0);
-        this.oscillator.connect(this.gainNode);
-        this.gainNode.connect(this.volumeNode);
-        this.volumeNode.connect(this.context.destination);
+        voice.oscillator.start();
+        voice.oscillator.connect(voice.gainNode);
+        voice.gainNode.connect(voice.volumeNode);
+        voice.volumeNode.connect(this.context.destination);
 
         // Trigger our ADSR amplitude envelope
-        this.amplitudeEnv = new Envelope(this.envelopeOpts, this.context);
-        this.amplitudeEnv.connect(this.gainNode.gain);
-        this.amplitudeEnv.trigger();
-        
-        this.isPlaying = true;
+        voice.amplitudeEnv = new Envelope(this.envelopeOpts, this.context);
+        voice.amplitudeEnv.connect(voice.gainNode.gain);
+        voice.amplitudeEnv.trigger();
     }
+
 };
 
-Synth.prototype.stop = function(delay){
-    if (this.isPlaying){
+Synth.prototype.stop = function(freq){
+
+    if (this.voices[freq] !== undefined){
 
         // Start release phase of ADSR envelope
-        this.amplitudeEnv.finish();
-
-        this.isPlaying = false;
+        this.voices[freq].amplitudeEnv.finish();
+        delete this.voices[freq];
     }
+
 };

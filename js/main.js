@@ -40,12 +40,15 @@ document.addEventListener("keydown", function(event){
     var key = codeToChar(event.which || event.keyCode);
     var freq = keyToFrequency(key);
     if (freq !== 0){
-        synth.setFrequency(freq);
-        synth.play();
+        synth.play(freq);
     }
 });
 
 document.addEventListener("keyup", function(event){
-    synth.stop();
+    var key = codeToChar(event.which || event.keyCode);
+    var freq = keyToFrequency(key);
+    if (freq !== 0){
+        synth.stop(freq);
+    }
 });
 })();
