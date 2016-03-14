@@ -16,6 +16,7 @@ Synth.prototype.init = function(opts){
     this.opts = opts || defaultOpts;
     this.isPlaying = false;
     this.volume = 0.5;
+    this.pan = 0;
 
     // Default envelope parameters
     this.envelopeOpts = {
@@ -37,6 +38,10 @@ Synth.prototype.setVolume = function(val){
     this.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
 };
 
+Synth.prototype.setPan = function(val){
+    this.pan = val;
+};
+
 Synth.prototype.play = function(freq){
 
     if (this.voices[freq] === undefined){
@@ -48,7 +53,7 @@ Synth.prototype.play = function(freq){
         
         // Set options up
         voice.oscillator.type = this.opts.type;
-        voice.oscillator.frequency.value = freq
+        voice.oscillator.frequency.value = freq;
 
         // Amplitude for ADSR envelope
         voice.gainNode = this.context.createGain();
@@ -57,10 +62,15 @@ Synth.prototype.play = function(freq){
         voice.volumeNode = this.context.createGain();
         voice.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
 
+        // Stereo Pan
+        voice.panNode = this.context.createStereoPanner();
+        voice.panNode.pan.value = this.pan;
+
         voice.oscillator.start();
         voice.oscillator.connect(voice.gainNode);
         voice.gainNode.connect(voice.volumeNode);
-        voice.volumeNode.connect(this.context.destination);
+        voice.volumeNode.connect(voice.panNode);
+        voice.panNode.connect(this.context.destination);
 
         // Trigger our ADSR amplitude envelope
         voice.amplitudeEnv = new Envelope(this.envelopeOpts, this.context);

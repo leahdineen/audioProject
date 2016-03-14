@@ -30,6 +30,11 @@ var init = function(){
     envelope.elements["release"].addEventListener("change", function(){
         synth.envelopeOpts.release = parseFloat(this.value);
     });
+
+    var pan = document.forms["waveType"].elements["pan"];
+    pan.addEventListener("change", function() {
+        synth.setPan(parseFloat(this.value));
+    });
 };
 
 document.addEventListener("DOMContentLoaded", function(event){
