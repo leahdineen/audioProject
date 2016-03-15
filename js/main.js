@@ -35,6 +35,11 @@ var init = function(){
     pan.addEventListener("change", function() {
         synth.setPan(parseFloat(this.value));
     });
+
+    var reverb = document.forms["waveType"].elements["reverb"];
+    reverb.addEventListener("change", function() {
+        synth.setReverb(parseFloat(this.value));
+    });
 };
 
 document.addEventListener("DOMContentLoaded", function(event){

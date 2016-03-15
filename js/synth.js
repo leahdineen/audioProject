@@ -16,6 +16,7 @@ Synth.prototype.init = function(opts){
     this.opts = opts || defaultOpts;
     this.isPlaying = false;
     this.volume = 0.5;
+    this.reverb = 0.0;
     this.pan = 0;
 
     // Default envelope parameters
@@ -42,6 +43,11 @@ Synth.prototype.setPan = function(val){
     this.pan = val;
 };
 
+// seconds that reverb plays for
+Synth.prototype.setReverb = function(val){
+    this.reverb = val;
+};
+
 Synth.prototype.play = function(freq){
 
     if (this.voices[freq] === undefined){
@@ -63,24 +69,30 @@ Synth.prototype.play = function(freq){
         voice.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
 
         // Reverb
-        voice.convolver = this.context.createConvolver();
-        var buffer = this.context.createBuffer(2, this.context.sampleRate * 2.0, this.context.sampleRate);
-
-        var source = this.context.createBufferSource();
-        source.buffer = buffer;
+        
         
 
-        for (var channel = 0; channel < 2; channel ++) {
-            // This gives us the actual array that contains the data
-           var nowBuffering = buffer.getChannelData(channel);
-           for (var i = 0; i < this.context.sampleRate * 2.0; i++) {
-             // Math.random() is in [0; 1.0]
-             // audio needs to be in [-1.0; 1.0]
-             nowBuffering[i] = Math.random() * 2 - 1;
-           }
+        if (this.reverb > 0) {
+            voice.convolver = this.context.createConvolver();
+            var buffer = this.context.createBuffer(2, this.context.sampleRate * this.reverb, this.context.sampleRate);
+
+            var source = this.context.createBufferSource();
+            source.buffer = buffer;
+
+            for (var channel = 0; channel < 2; channel ++) {
+                // This gives us the actual array that contains the data
+               var nowBuffering = buffer.getChannelData(channel);
+               for (var i = 0; i < this.context.sampleRate * this.reverb; i++) {
+                 // Math.random() is in [0; 1.0]
+                 // audio needs to be in [-1.0; 1.0]
+                 nowBuffering[i] = Math.random() * 2 - 1;
+               }
+               console.log(nowBuffering)
+            }
+            voice.convolver.buffer = source.buffer;
         }
 
-        voice.convolver.buffer = source.buffer;
+        
 
         // Stereo Pan
         voice.panNode = this.context.createStereoPanner();
@@ -89,12 +101,13 @@ Synth.prototype.play = function(freq){
         voice.oscillator.start();
         voice.oscillator.connect(voice.gainNode);
         voice.gainNode.connect(voice.volumeNode);
-        voice.volumeNode.connect(voice.convolver);
         voice.volumeNode.connect(voice.panNode);
         voice.panNode.connect(this.context.destination);
 
-        voice.volumeNode.connect(voice.convolver)
-        voice.convolver.connect(this.context.destination);
+        if (this.reverb > 0) {
+            voice.volumeNode.connect(voice.convolver)
+            voice.convolver.connect(this.context.destination);
+        }
 
         // Trigger our ADSR amplitude envelope
         voice.amplitudeEnv = new Envelope(this.envelopeOpts, this.context);
