@@ -18,9 +18,15 @@ var init = function(){
     volume.addEventListener("change", function() {
         synth.setVolume(parseFloat(this.value));
     });
+    
+    // Panning
+    var pan = document.forms["waveType"].elements["pan"];
+    pan.addEventListener("change", function() {
+        synth.setPan(parseFloat(this.value));
+    });
 
     // ADSR for amplitude
-    var envelope = document.forms["waveType"].elements["envelope"];
+    var envelope = document.forms["adsr"];
     envelope.elements["attack"].addEventListener("change", function(){
         synth.envelopeOpts.attack = parseFloat(this.value);
     });
@@ -34,14 +40,9 @@ var init = function(){
         synth.envelopeOpts.release = parseFloat(this.value);
     });
 
-    // Panning
-    var pan = document.forms["waveType"].elements["pan"];
-    pan.addEventListener("change", function() {
-        synth.setPan(parseFloat(this.value));
-    });
 
     // LFO1
-    var lfo1 = document.forms["waveType"].elements["lfo1"];
+    var lfo1 = document.forms["lfo1"];
     lfo1.elements["param"].addEventListener("change", function(){
         synth.lfoOpts1.param = this.value;
     });
