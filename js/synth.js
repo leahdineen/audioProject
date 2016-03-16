@@ -26,6 +26,14 @@ Synth.prototype.init = function(opts){
         "release" : 0
     };
 
+    // Default LFO1 options
+    this.lfoOpts1 = {
+        "param" : "volume",
+        "frequency":  2.0,
+        "gain" : 0.25,
+        "enabled": false
+    };
+
     this.voices = {};
 };
 
@@ -35,7 +43,6 @@ Synth.prototype.setWaveForm = function(type){
 
 Synth.prototype.setVolume = function(val){
     this.volume = val;
-    this.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
 };
 
 Synth.prototype.setPan = function(val){
@@ -65,6 +72,34 @@ Synth.prototype.play = function(freq){
         // Stereo Pan
         voice.panNode = this.context.createStereoPanner();
         voice.panNode.pan.value = this.pan;
+
+        // LFO
+        if (this.lfoOpts1.enabled){
+            var opts = {};
+            for(var o in this.lfoOpts1) opts[o] = this.lfoOpts1[o];
+            var oscParam;
+            switch(opts.param){
+                case "frequency":
+                    // Need to scale frequency oscillation since other params
+                    // take on a much smaller range of values ([0, 1] or [-1, 1])
+                    opts.gain = opts.gain * 50.0;
+                    oscParam = voice.oscillator.frequency;
+                    break;
+                case "volume":
+                    oscParam = voice.volumeNode.gain;
+                    break;
+                case "pan":
+                    // Need to scale pan since its values lie in [-1, 1] rather than [0, 1]
+                    opts.gain = opts.gain * 2.0;
+                    oscParam = voice.panNode.pan;
+                    break;
+                default:
+                    oscParam = voice.volumeNode.gain;
+                    break;
+            }
+            voice.lfo = new LFO(opts, this.context);
+            voice.lfo.oscillate(oscParam);
+        }
 
         voice.oscillator.start();
         voice.oscillator.connect(voice.gainNode);
