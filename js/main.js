@@ -5,6 +5,7 @@ var synth = null;
 var init = function(){
     synth = new Synth();
 
+    // Waveforms
     var radios = document.forms["waveType"].elements["wave"];
     for(var i = 0, max = radios.length; i < max; i++) {
         radios[i].onclick = function() {
@@ -12,12 +13,20 @@ var init = function(){
         };
     }
 
+    // Volume
     var volume = document.forms["waveType"].elements["volume"];
     volume.addEventListener("change", function() {
         synth.setVolume(parseFloat(this.value));
     });
+    
+    // Panning
+    var pan = document.forms["waveType"].elements["pan"];
+    pan.addEventListener("change", function() {
+        synth.setPan(parseFloat(this.value));
+    });
 
-    var envelope = document.forms["waveType"].elements["envelope"];
+    // ADSR for amplitude
+    var envelope = document.forms["adsr"];
     envelope.elements["attack"].addEventListener("change", function(){
         synth.envelopeOpts.attack = parseFloat(this.value);
     });
@@ -31,9 +40,20 @@ var init = function(){
         synth.envelopeOpts.release = parseFloat(this.value);
     });
 
-    var pan = document.forms["waveType"].elements["pan"];
-    pan.addEventListener("change", function() {
-        synth.setPan(parseFloat(this.value));
+
+    // LFO1
+    var lfo1 = document.forms["lfo1"];
+    lfo1.elements["param"].addEventListener("change", function(){
+        synth.lfoOpts1.param = this.value;
+    });
+    lfo1.elements["rate"].addEventListener("change", function(){
+        synth.lfoOpts1.frequency = this.value;
+    });
+    lfo1.elements["gain"].addEventListener("change", function(){
+        synth.lfoOpts1.gain = this.value;
+    });
+    lfo1.elements["enabled"].addEventListener("click", function(){
+        synth.lfoOpts1.enabled = !synth.lfoOpts1.enabled;
     });
 
     var reverb = document.forms["waveType"].elements["reverb"];

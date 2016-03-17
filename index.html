@@ -4,37 +4,130 @@
     <meta charset="UTF-8">
     <title>Audio Project 2016</title>
     <link rel="stylesheet" href="styles/main.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <script   src="https://code.jquery.com/jquery-2.2.1.min.js"   integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="   crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
     <script src="js/util.js"></script>
 	<script src="js/envelope.js"></script>
+    <script src="js/lfo.js"></script>
     <script src="js/synth.js"></script>
     <script src="js/main.js"></script>
 </head>
 <body>
 
 
-<div id="header">
-    Team Work makes the Dream Work
-</div>
-
-<div id="content">
-    <form name="waveType">
-        <input type="radio" name="wave" value="sine" checked> Sine
-        <input type="radio" name="wave" value="square"> Square
-        <input type="radio" name="wave" value="sawtooth"> Sawtooth
-        <input type="radio" name="wave" value="triangle"> Triangle
-        </br>
-        Volume <input type="range" name="volume" min="0" max="1" step="0.1" value="0.5">
-        <fieldset name="envelope">
-            <legend> Amplitude Envelope</legend>
-            A<input type="range" name="attack" min="0" max="2" step="0.1" value="0"><br>
-            D<input type="range" name="decay" min="0" max="2" step="0.1" value="0"><br>
-            S<input type="range" name="sustain" min="0" max="1" step="0.1" value="0.5"><br>
-            R<input type="range" name="release" min="0" max="2" step="0.1" value="0">
-        </fieldset>
-        Pan </br>
-        L <input type="range" name="pan" min="-1" max="1" step="0.1" value="0"> R </br>
-        Reverb <input type="range" name="reverb" min="0" max="5" step="1" value="1">
-    </form>
+<div id="content" class="container">
+    <div class="row">
+        <div class="col s4">
+            Oscillator1
+            <form name="waveType">
+                <p>
+                    <input id="sine" type="radio" name="wave" value="sine" checked>
+                    <label for="sine">Sine</label>
+                </p>
+                <p>
+                    <input id="square" type="radio" name="wave" value="square">
+                    <label for="square">Square</label>
+                </p>
+                <p>
+                    <input id="sawtooth" type="radio" name="wave" value="sawtooth">
+                    <label for="sawtooth">Sawtooth</label>
+                </p>
+                <p>
+                    <input id="triangle" type="radio" name="wave" value="triangle">
+                    <label for="triangle">Triangle</label>
+                </p>
+                </p class="range-field">
+                    <label for="vol1">Vol</label>
+                    <input type="range" id="vol1" name="volume" min="0" max="1" step="0.1" value="0.5">
+                </p>
+                </p class="range-field">
+                    <label for="pan1">Pan</label>
+                    L<input type="range" id="pan1" name="pan" min="-1" max="1" step="0.1" value="0">R
+                </p>
+            </form>
+        </div>
+        <div class="col s4">
+            Amplitude Envelope
+            <form name="adsr">
+                </p class="range-field">
+                    <label for="attack">A</label>
+                    <input type="range" id="attack" name="attack" min="0" max="2" step="0.1" value="0">
+                </p>
+                </p class="range-field">
+                    <label for="decay">D</label>
+                    <input type="range" id="decay" name="decay" min="0" max="2" step="0.1" value="0">
+                </p>
+                </p class="range-field">
+                    <label for="sustain">S</label>
+                    <input type="range" id="sustain" name="sustain" min="0" max="1" step="0.1" value="0.5">
+                </p>
+                </p class="range-field">
+                    <label for="release">R</label>
+                    <input type="range" id="release" name="release" min="0" max="2" step="0.1" value="0">
+                </p>
+            </form>
+        </div>
+        <div class="col s4">
+            Oscillator2 (not implemented yet)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s4">
+            LFO1
+            <form name="lfo1">
+                <p class="input-field">
+                    <select class="browser-default" name="param">
+                        <option selected disabled value="title">Choose Parameter</option>
+                        <option value ="frequency">Frequency</option>
+                        <option value ="volume">Volume</option>
+                        <option value ="pan">Pan</option>
+                    </select>
+                </p>
+                </p class="range-field">
+                    <label for="lfo1-rate">Rate</label>
+                    <input type="range" id="lfo1-rate" name="rate" min="0" max="10" step="0.5" value="5">
+                </p>
+                </p class="range-field">
+                    <label for="lfo1-gain">Gain</label>
+                    <input type="range" id="lfo1-gain" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                <p>
+                    <input type="checkbox" id="lfo1-enabled" name="enabled" value="enabled"/>
+                    <label for="lfo1-enabled">Enabled</label>
+                </p>
+            </form>
+        </div>
+        <div class="col s4">
+            Reverb
+            <form name="reverb">
+                </p class="range-field">
+                    <label for="reverb-initial-delay">Inital Delay</label>
+                    <input type="range" id="reverb-intial-delay" name="delay" min="0" max="5" step="0.5" value="0">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">Reverb Time</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">Low Frequnecy Filter</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">High Frequency Filter</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">Wetness</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                <p>
+                    <input type="checkbox" id="reverb-enabled" name="enabled" value="enabled"/>
+                    <label for="reverb-enabled">Enabled</label>
+                </p>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>
