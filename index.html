@@ -72,7 +72,6 @@
             Oscillator2 (not implemented yet)
         </div>
     </div>
-
     <div class="row">
         <div class="col s4">
             LFO1
@@ -96,6 +95,35 @@
                 <p>
                     <input type="checkbox" id="lfo1-enabled" name="enabled" value="enabled"/>
                     <label for="lfo1-enabled">Enabled</label>
+                </p>
+            </form>
+        </div>
+        <div class="col s4">
+            Reverb
+            <form name="reverb">
+                </p class="range-field">
+                    <label for="reverb-initial-delay">Inital Delay</label>
+                    <input type="range" id="reverb-intial-delay" name="delay" min="0" max="5" step="0.5" value="0">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">Reverb Time</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">Low Frequnecy Filter</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">High Frequency Filter</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">Wetness</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                <p>
+                    <input type="checkbox" id="reverb-enabled" name="enabled" value="enabled"/>
+                    <label for="reverb-enabled">Enabled</label>
                 </p>
             </form>
         </div>
