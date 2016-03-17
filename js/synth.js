@@ -16,7 +16,6 @@ Synth.prototype.init = function(opts){
     this.opts = opts || defaultOpts;
     this.isPlaying = false;
     this.volume = 0.5;
-    this.reverb = 1;
     this.pan = 0;
 
     // Default envelope parameters
@@ -35,6 +34,10 @@ Synth.prototype.init = function(opts){
         "enabled": false
     };
 
+    this.reverb = {
+        "enabled": false
+    }
+
     this.voices = {};
 
     irHall = new reverbObject('https://raw.githubusercontent.com/cwilso/WebAudio/master/sounds/irHall.ogg', this);
@@ -50,11 +53,6 @@ Synth.prototype.setVolume = function(val){
 
 Synth.prototype.setPan = function(val){
     this.pan = val;
-};
-
-// seconds that reverb plays for
-Synth.prototype.setReverb = function(val){
-    this.reverb = val;
 };
 
 function loadAudio(url, t) {
@@ -98,7 +96,7 @@ Synth.prototype.play = function(freq){
 
         // Reverb
 
-        if (this.reverb > 0) {
+        if (this.reverb.enabled) {
             voice.convolver = this.context.createConvolver();
             voice.convolver.buffer = this.buffer;
             voice.volumeNode.connect(voice.convolver);

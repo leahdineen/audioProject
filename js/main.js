@@ -56,9 +56,10 @@ var init = function(){
         synth.lfoOpts1.enabled = !synth.lfoOpts1.enabled;
     });
 
-    var reverb = document.forms["waveType"].elements["reverb"];
-    reverb.addEventListener("change", function() {
-        synth.setReverb(parseFloat(this.value));
+    // Reverb
+    var reverb = document.forms["reverb"];
+    reverb.elements["enabled"].addEventListener("click", function(){
+        synth.reverb.enabled = !synth.reverb.enabled;
     });
 };
 
