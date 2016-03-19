@@ -26,18 +26,24 @@ var init = function(){
     });
 
     // ADSR for amplitude
-    var envelope = document.forms["adsr"];
+    var envelope = document.forms["adsr1"];
+    envelope.elements["param"].addEventListener("change", function(){
+        synth.envelopeOpts1.param = this.value;
+    });
     envelope.elements["attack"].addEventListener("change", function(){
-        synth.envelopeOpts.attack = parseFloat(this.value);
+        synth.envelopeOpts1.attack = parseFloat(this.value);
     });
     envelope.elements["decay"].addEventListener("change", function(){
-        synth.envelopeOpts.decay = parseFloat(this.value);
+        synth.envelopeOpts1.decay = parseFloat(this.value);
     });
     envelope.elements["sustain"].addEventListener("change", function(){
-        synth.envelopeOpts.sustain = parseFloat(this.value);
+        synth.envelopeOpts1.sustain = parseFloat(this.value);
     });
     envelope.elements["release"].addEventListener("change", function(){
-        synth.envelopeOpts.release = parseFloat(this.value);
+        synth.envelopeOpts1.release = parseFloat(this.value);
+    });
+    envelope.elements["enabled"].addEventListener("click", function(){
+        synth.envelopeOpts1.enabled = !synth.envelopeOpts1.enabled;
     });
 
 
