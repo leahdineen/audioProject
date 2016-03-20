@@ -14,8 +14,6 @@
     <script src="js/main.js"></script>
 </head>
 <body>
-
-
 <div id="content" class="container">
     <div class="row">
         <div class="col s4">
@@ -42,14 +40,26 @@
                     <input type="range" id="vol1" name="volume" min="0" max="1" step="0.1" value="0.5">
                 </p>
                 </p class="range-field">
+                    <label for="phase1">Phase</label>
+                    0<input type="range" id="phase1" name="phase" min="0" max="360" step="1" value="0">360
+                </p>
+                </p class="range-field">
                     <label for="pan1">Pan</label>
                     L<input type="range" id="pan1" name="pan" min="-1" max="1" step="0.1" value="0">R
                 </p>
             </form>
         </div>
         <div class="col s4">
-            Amplitude Envelope
-            <form name="adsr">
+            ADSR Envelope 1
+            <form name="adsr1">
+                <p class="input-field">
+                    <select class="browser-default" name="param">
+                        <option selected disabled value="title">Choose Parameter</option>
+                        <option value ="frequency">Frequency</option>
+                        <option value ="volume">Volume</option>
+                        <option value ="pan">Pan</option>
+                    </select>
+                </p>
                 </p class="range-field">
                     <label for="attack">A</label>
                     <input type="range" id="attack" name="attack" min="0" max="2" step="0.1" value="0">
@@ -66,6 +76,10 @@
                     <label for="release">R</label>
                     <input type="range" id="release" name="release" min="0" max="2" step="0.1" value="0">
                 </p>
+                <p>
+                    <input type="checkbox" id="adsr1-enabled" name="enabled" value="enabled"/>
+                    <label for="adsr1-enabled">Enabled</label>
+                </p>
             </form>
         </div>
         <div class="col s4">
@@ -74,7 +88,7 @@
     </div>
     <div class="row">
         <div class="col s4">
-            LFO1
+            LFO 1
             <form name="lfo1">
                 <p class="input-field">
                     <select class="browser-default" name="param">

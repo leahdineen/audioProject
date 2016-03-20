@@ -11,19 +11,24 @@ Synth.prototype.init = function(opts){
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     this.context = new AudioContext();
 
-    // Default to square wave at A4
-    var defaultOpts = {type: 'square', frequency: 440};
-    this.opts = opts || defaultOpts;
+    this.real = new Float32Array(4096);
+    this.imag = new Float32Array(4096);
+    this.imag[1] = 1.0; // initialize to sine
+
     this.isPlaying = false;
     this.volume = 0.5;
     this.pan = 0;
+    this.phase = 0;
 
     // Default envelope parameters
-    this.envelopeOpts = {
+    this.envelopeOpts1 = {
+        "param" : "volume",
         "attack" : 0,
         "decay" : 0,
         "sustain" : 0.5,
-        "release" : 0
+        "release" : 0,
+        "max" : 1,
+        "enabled" : false
     };
 
     // Default LFO1 options
@@ -47,7 +52,36 @@ Synth.prototype.init = function(opts){
 };
 
 Synth.prototype.setWaveForm = function(type){
-    this.opts.type = type;
+    // reset real and imaginary to 0
+    this.real = new Float32Array(4096);
+    this.imag = new Float32Array(4096);
+
+    if(type == "sine"){
+        this.imag[1] = 1.0;
+    }
+    else if (type == "square"){
+        for(var i = 1; i < 4096; i += 2){
+            this.imag[i] = 4.0 / (Math.PI * i);
+        }
+    }
+    else if (type == "triangle"){
+        for(var i = 1; i < 4096; i += 2){
+            this.imag[i] = (8.0 * Math.pow(-1, (i-1)/2)) / (Math.pow(Math.PI, 2) * Math.pow(i, 2));
+        }
+    }
+    else if (type == "sawtooth"){
+        for(var i = 1; i < 4096; i++){
+            this.imag[i] =  (2.0 * Math.pow(-1, i)) / (Math.PI * i);
+        }
+    }
+};
+
+Synth.prototype.setPhase = function(val){
+    var shift = 2 * Math.PI * (val/360);
+    for(var i = 1; i < 4096; i++){
+        this.real[i] = this.real[i] * Math.cos(shift) - this.imag[i] * Math.sin(shift);
+        this.imag[i] = this.real[i] * Math.sin(shift) + this.imag[i] * Math.cos(shift);
+    }
 };
 
 Synth.prototype.setVolume = function(val){
@@ -77,6 +111,8 @@ function reverbObject(url,t) {
     loadAudio(url,t);
 }
 
+
+//TODO: REFACTOR THIS MONSTROSITY
 Synth.prototype.play = function(freq){
 
     if (this.voices[freq] === undefined){
@@ -87,7 +123,8 @@ Synth.prototype.play = function(freq){
         voice.oscillator = this.context.createOscillator();
         
         // Set options up
-        voice.oscillator.type = this.opts.type;
+        var wave = this.context.createPeriodicWave(this.real, this.imag);
+        voice.oscillator.setPeriodicWave(wave);
         voice.oscillator.frequency.value = freq;
 
         // Amplitude for ADSR envelope
@@ -123,9 +160,11 @@ Synth.prototype.play = function(freq){
             var oscParam;
             switch(opts.param){
                 case "frequency":
-                    // Need to scale frequency oscillation since other params
-                    // take on a much smaller range of values ([0, 1] or [-1, 1])
-                    opts.gain = opts.gain * 50.0;
+                    // How many half steps our frequency range will be
+                    var halfSteps = opts.gain * 10;
+                    // Math to determine oscillation frequency
+                    // See: https://en.wikipedia.org/wiki/Piano_key_frequencies
+                    opts.gain = Math.abs(Math.pow(2, halfSteps / 12) * freq - freq) / 2;
                     oscParam = voice.oscillator.frequency;
                     break;
                 case "volume":
@@ -133,7 +172,7 @@ Synth.prototype.play = function(freq){
                     break;
                 case "pan":
                     // Need to scale pan since its values lie in [-1, 1] rather than [0, 1]
-                    opts.gain = opts.gain * 2.0;
+                    opts.gain = opts.gain * 2.0 - 1;
                     oscParam = voice.panNode.pan;
                     break;
                 default:
@@ -144,33 +183,63 @@ Synth.prototype.play = function(freq){
             voice.lfo.oscillate(oscParam);
         }
 
+        // ADSR Envelope
+        if (this.envelopeOpts1.enabled){
+            var opts = {};
+            for(var o in this.envelopeOpts1) opts[o] = this.envelopeOpts1[o];
+            var envParam;
+            switch(opts.param){
+                case "frequency":
+                    // Peak of attack is at main frequency
+                    opts.max = freq;
+                    // How many half steps we sustain to
+                    var halfSteps = (opts.sustain - 0.5) * 10;
+
+                    // Math to determine sustain frequency
+                    // See: https://en.wikipedia.org/wiki/Piano_key_frequencies
+                    opts.sustain = Math.pow(2, halfSteps / 12) * freq;
+                    envParam = voice.oscillator.frequency;
+                    break;
+                case "volume":
+                    envParam = voice.volumeNode.gain;
+                    break;
+                case "pan":
+                    // Map pan sustain from [0, 1] to [-1, 1]
+                    opts.sustain = this.envelopeOpts1.sustain * 2.0 - 1;
+                    envParam = voice.panNode.pan;
+                    break;
+                default:
+                    envParam = voice.volumeNode;
+                    break;
+            }
+
+            voice.env = new Envelope(opts, this.context);
+            voice.env.connect(envParam);
+            voice.env.trigger();
+        }
+
         voice.oscillator.start();
-
-        voice.oscillator.connect(synthDelay);
-
         voice.oscillator.connect(voice.gainNode);
-        voice.gainNode.connect(voice.volumeNode);
-        voice.volumeNode.connect(voice.panNode);
-        voice.panNode.connect(this.context.destination);
-
-        // Trigger our ADSR amplitude envelope
-        voice.amplitudeEnv = new Envelope(this.envelopeOpts, this.context);
-        voice.amplitudeEnv.connect(voice.gainNode.gain);
-        voice.amplitudeEnv.trigger();
-
-        
+        voice.gainNode.connect(voice.panNode);
+        voice.panNode.connect(voice.volumeNode);
+        voice.volumeNode.connect(this.context.destination);
     }
-
-
 };
 
 Synth.prototype.stop = function(freq){
 
-    if (this.voices[freq] !== undefined){
-
-        // Start release phase of ADSR envelope
-        this.voices[freq].amplitudeEnv.finish();
+    var voice = this.voices[freq];
+    if (voice !== undefined){
+        // Start release phase of ADSR envelope if enabled
+        if (voice.env !== undefined){
+            voice.env.finish();
+            if (this.envelopeOpts1.param !== "volume"){
+                voice.oscillator.stop();
+            }
+        }
+        else{
+            voice.oscillator.stop();
+        }
         delete this.voices[freq];
     }
-
 };
