@@ -35,6 +35,9 @@ Synth.prototype.init = function(opts){
     };
 
     this.reverb = {
+        "delay": 0,
+        "reverbTime": 0,
+
         "enabled": false
     }
 
@@ -95,10 +98,15 @@ Synth.prototype.play = function(freq){
         voice.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
 
         // Reverb
-
         if (this.reverb.enabled) {
             voice.convolver = this.context.createConvolver();
             voice.convolver.buffer = this.buffer;
+
+            var synthDelay = this.context.createDelay(2.0);
+            
+            
+            console.log(synthDelay)
+
             voice.volumeNode.connect(voice.convolver);
             voice.convolver.connect(this.context.destination);
         }
@@ -137,6 +145,9 @@ Synth.prototype.play = function(freq){
         }
 
         voice.oscillator.start();
+
+        voice.oscillator.connect(synthDelay);
+
         voice.oscillator.connect(voice.gainNode);
         voice.gainNode.connect(voice.volumeNode);
         voice.volumeNode.connect(voice.panNode);
