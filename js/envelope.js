@@ -9,6 +9,7 @@ function Envelope(opts, context){
     this.release = opts.release;
     this.param = null;
     this.context = context;
+    this.max = opts.max;
 }
 
 Envelope.prototype.connect = function(param){
@@ -24,7 +25,7 @@ Envelope.prototype.trigger = function(){
 
     // Attack ramp 
     this.param.setValueAtTime(0, this.context.currentTime);
-    this.param.linearRampToValueAtTime(1.0, this.context.currentTime + this.attack);
+    this.param.linearRampToValueAtTime(this.max, this.context.currentTime + this.attack);
 
     // Decay ramp
     this.param.linearRampToValueAtTime(this.sustain, this.context.currentTime + this.attack + this.decay);
