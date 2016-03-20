@@ -92,9 +92,6 @@ Synth.prototype.play = function(freq){
         voice.oscillator.type = this.opts.type;
         voice.oscillator.frequency.value = freq;
 
-        // Amplitude for ADSR envelope
-        voice.gainNode = this.context.createGain();
-
         // Master volume
         voice.volumeNode = this.context.createGain();
         voice.volumeNode.gain.setValueAtTime(this.volume, this.context.currentTime);
@@ -180,8 +177,8 @@ Synth.prototype.play = function(freq){
         }
 
         voice.oscillator.start();
-        voice.oscillator.connect(voice.gainNode);
-        voice.gainNode.connect(voice.panNode);
+        voice.oscillator.connect(voice.volumeNode);
+        voice.volumeNode.connect(voice.panNode);
         voice.panNode.connect(voice.volumeNode);
         voice.volumeNode.connect(this.context.destination);
     }
