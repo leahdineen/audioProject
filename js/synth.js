@@ -63,12 +63,12 @@ Synth.prototype.setWaveForm = function(type){
     }
     else if (type == "triangle"){
         for(var i = 1; i < 4096; i += 2){
-            this.imag[i] = (8.0 / Math.pow(Math.PI, 2)) * (Math.pow(-1, (i-1)/2) / Math.pow(i, 2));
+            this.imag[i] = (8.0 * Math.pow(-1, (i-1)/2)) / (Math.pow(Math.PI, 2) * Math.pow(i, 2));
         }
     }
     else if (type == "sawtooth"){
         for(var i = 1; i < 4096; i++){
-            this.imag[i] =  2.0 / (Math.pow(-1, i) * Math.PI * i);
+            this.imag[i] =  (2.0 * Math.pow(-1, i)) / (Math.PI * i);
         }
     }
 };
