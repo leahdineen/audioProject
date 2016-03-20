@@ -5,11 +5,19 @@ var synth = null;
 var init = function(){
     synth = new Synth();
 
+    // Phase
+    var phase = document.forms["waveType"].elements["phase"];
+    phase.addEventListener("change", function() {
+        synth.setPhase(this.value);
+    });
+
     // Waveforms
     var radios = document.forms["waveType"].elements["wave"];
     for(var i = 0, max = radios.length; i < max; i++) {
         radios[i].onclick = function() {
             synth.setWaveForm(this.value);
+            // need to set phase every time we change wave form
+            synth.setPhase(phase.value);
         };
     }
 

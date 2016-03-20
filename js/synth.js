@@ -11,12 +11,14 @@ Synth.prototype.init = function(opts){
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     this.context = new AudioContext();
 
-    // Default to square wave at A4
-    var defaultOpts = {type: 'square', frequency: 440};
-    this.opts = opts || defaultOpts;
+    this.real = new Float32Array(4096);
+    this.imag = new Float32Array(4096);
+    this.imag[1] = 1.0; // initialize to sine
+
     this.isPlaying = false;
     this.volume = 0.5;
     this.pan = 0;
+    this.phase = 0;
 
     // Default envelope parameters
     this.envelopeOpts1 = {
@@ -47,7 +49,36 @@ Synth.prototype.init = function(opts){
 };
 
 Synth.prototype.setWaveForm = function(type){
-    this.opts.type = type;
+    // reset real and imaginary to 0
+    this.real = new Float32Array(4096);
+    this.imag = new Float32Array(4096);
+
+    if(type == "sine"){
+        this.imag[1] = 1.0;
+    }
+    else if (type == "square"){
+        for(var i = 1; i < 4096; i += 2){
+            this.imag[i] = 4.0 / (Math.PI * i);
+        }
+    }
+    else if (type == "triangle"){
+        for(var i = 1; i < 4096; i += 2){
+            this.imag[i] = (8.0 * Math.pow(-1, (i-1)/2)) / (Math.pow(Math.PI, 2) * Math.pow(i, 2));
+        }
+    }
+    else if (type == "sawtooth"){
+        for(var i = 1; i < 4096; i++){
+            this.imag[i] =  (2.0 * Math.pow(-1, i)) / (Math.PI * i);
+        }
+    }
+};
+
+Synth.prototype.setPhase = function(val){
+    var shift = 2 * Math.PI * (val/360);
+    for(var i = 1; i < 4096; i++){
+        this.real[i] = this.real[i] * Math.cos(shift) - this.imag[i] * Math.sin(shift);
+        this.imag[i] = this.real[i] * Math.sin(shift) + this.imag[i] * Math.cos(shift);
+    }
 };
 
 Synth.prototype.setVolume = function(val){
@@ -89,7 +120,8 @@ Synth.prototype.play = function(freq){
         voice.oscillator = this.context.createOscillator();
         
         // Set options up
-        voice.oscillator.type = this.opts.type;
+        var wave = this.context.createPeriodicWave(this.real, this.imag);
+        voice.oscillator.setPeriodicWave(wave);
         voice.oscillator.frequency.value = freq;
 
         // Master volume
