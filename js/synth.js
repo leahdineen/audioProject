@@ -48,7 +48,7 @@ Synth.prototype.init = function(opts){
 
     this.voices = {};
 
-    irHall = new reverbObject('https://raw.githubusercontent.com/cwilso/WebAudio/master/sounds/irHall.ogg', this);
+    // irHall = new reverbObject('https://raw.githubusercontent.com/cwilso/WebAudio/master/sounds/irHall.ogg', this);
 };
 
 Synth.prototype.setWaveForm = function(type){
@@ -92,24 +92,43 @@ Synth.prototype.setPan = function(val){
     this.pan = val;
 };
 
-function loadAudio(url, t) {
+// function loadAudio(url, t) {
 
-    var request = new XMLHttpRequest();
-    request.open('GET', url, true);
-    request.responseType = 'arraybuffer';
+//     var request = new XMLHttpRequest();
+//     request.open('GET', url, true);
+//     request.responseType = 'arraybuffer';
 
-    request.onload = function() {
-        t.context.decodeAudioData(request.response, function(buffer) {
-            t.buffer = buffer;
-        });
-    }
-    request.send();
-}
+//     request.onload = function() {
+//         t.context.decodeAudioData(request.response, function(buffer) {
+//             t.buffer = buffer;
+//         });
+//     }
+//     request.send();
+// }
 
-function reverbObject(url,t) {
-    this.source = url;
-    loadAudio(url,t);
-}
+function buildImpulse (context, convolver) {
+      var rate = context.sampleRate
+        , length = rate * 2.0//* this.seconds
+        , decay = 0//this.decay
+        , impulse = context.createBuffer(2, length, rate)
+        , impulseL = impulse.getChannelData(0)
+        , impulseR = impulse.getChannelData(1)
+        , n, i;
+
+      for (i = 0; i < length; i++) {
+        n = i;
+        impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
+        impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
+      }
+
+
+      convolver.buffer = impulse;
+  }
+
+// function reverbObject(url,t) {
+//     this.source = url;
+//     loadAudio(url,t);
+// }
 
 
 //TODO: REFACTOR THIS MONSTROSITY
@@ -137,13 +156,13 @@ Synth.prototype.play = function(freq){
         // Reverb
         if (this.reverb.enabled) {
             voice.convolver = this.context.createConvolver();
-            voice.convolver.buffer = this.buffer;
+            buildImpulse(this.context, voice.convolver);
 
-            var synthDelay = this.context.createDelay(2.0);
+            voice.reverbDelay = this.context.createDelay(5.0);
+            console.log(voice.convolver.buffer)
+            voice.convolver.connect(voice.reverbDelay);
             
             
-            console.log(synthDelay)
-
             voice.volumeNode.connect(voice.convolver);
             voice.convolver.connect(this.context.destination);
         }
