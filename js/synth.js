@@ -41,7 +41,7 @@ Synth.prototype.init = function(opts){
 
     this.reverb = {
         "enabled": false
-    }
+    };
 
     this.voices = {};
 
@@ -99,7 +99,7 @@ function loadAudio(url, t) {
         t.context.decodeAudioData(request.response, function(buffer) {
             t.buffer = buffer;
         });
-    }
+    };
     request.send();
 }
 

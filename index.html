@@ -18,22 +18,22 @@
     <div class="row">
         <div class="col s4">
             Oscillator1
-            <form name="waveType">
+            <form name="oscillator1">
                 <p>
-                    <input id="sine" type="radio" name="wave" value="sine" checked>
-                    <label for="sine">Sine</label>
+                    <input id="sine1" type="radio" name="wave" value="sine" checked>
+                    <label for="sine1">Sine</label>
                 </p>
                 <p>
-                    <input id="square" type="radio" name="wave" value="square">
-                    <label for="square">Square</label>
+                    <input id="square1" type="radio" name="wave" value="square">
+                    <label for="square1">Square</label>
                 </p>
                 <p>
-                    <input id="sawtooth" type="radio" name="wave" value="sawtooth">
-                    <label for="sawtooth">Sawtooth</label>
+                    <input id="sawtooth1" type="radio" name="wave" value="sawtooth">
+                    <label for="sawtooth1">Sawtooth</label>
                 </p>
                 <p>
-                    <input id="triangle" type="radio" name="wave" value="triangle">
-                    <label for="triangle">Triangle</label>
+                    <input id="triangle1" type="radio" name="wave" value="triangle">
+                    <label for="triangle1">Triangle</label>
                 </p>
                 </p class="range-field">
                     <label for="vol1">Vol</label>
@@ -83,7 +83,37 @@
             </form>
         </div>
         <div class="col s4">
-            Oscillator2 (not implemented yet)
+            Oscillator2
+            <form name="oscillator2">
+                <p>
+                    <input id="sine2" type="radio" name="wave" value="sine" checked>
+                    <label for="sine2">Sine</label>
+                </p>
+                <p>
+                    <input id="square2" type="radio" name="wave" value="square">
+                    <label for="square2">Square</label>
+                </p>
+                <p>
+                    <input id="sawtooth2" type="radio" name="wave" value="sawtooth">
+                    <label for="sawtooth2">Sawtooth</label>
+                </p>
+                <p>
+                    <input id="triangle2" type="radio" name="wave" value="triangle">
+                    <label for="triangle2">Triangle</label>
+                </p>
+                </p class="range-field">
+                    <label for="vol2">Vol</label>
+                    <input type="range" id="vol2" name="volume" min="0" max="1" step="0.1" value="0.5">
+                </p>
+                </p class="range-field">
+                    <label for="phase2">Phase</label>
+                    0<input type="range" id="phase2" name="phase" min="0" max="360" step="1" value="0">360
+                </p>
+                </p class="range-field">
+                    <label for="pan2">Pan</label>
+                    L<input type="range" id="pan2" name="pan" min="-1" max="1" step="0.1" value="0">R
+                </p>
+            </form>
         </div>
     </div>
     <div class="row">

@@ -6,30 +6,54 @@ var init = function(){
     synth = new Synth();
 
     // Phase
-    var phase = document.forms["waveType"].elements["phase"];
-    phase.addEventListener("change", function() {
+    var phase1 = document.forms["oscillator1"].elements["phase"];
+    phase1.addEventListener("change", function() {
+        synth.setPhase(this.value);
+    });
+
+    var phase2 = document.forms["oscillator2"].elements["phase"];
+    phase2.addEventListener("change", function() {
         synth.setPhase(this.value);
     });
 
     // Waveforms
-    var radios = document.forms["waveType"].elements["wave"];
-    for(var i = 0, max = radios.length; i < max; i++) {
-        radios[i].onclick = function() {
+    var radios1 = document.forms["oscillator1"].elements["wave"];
+    for(var i = 0, max = radios1.length; i < max; i++) {
+        radios1[i].onclick = function() {
             synth.setWaveForm(this.value);
             // need to set phase every time we change wave form
-            synth.setPhase(phase.value);
+            synth.setPhase(phase1.value);
+        };
+    }
+
+    var radios2 = document.forms["oscillator2"].elements["wave"];
+    for(var i = 0, max = radios2.length; i < max; i++) {
+        radios2[i].onclick = function() {
+            synth.setWaveForm(this.value);
+            // need to set phase every time we change wave form
+            synth.setPhase(phase2.value);
         };
     }
 
     // Volume
-    var volume = document.forms["waveType"].elements["volume"];
-    volume.addEventListener("change", function() {
+    var volume1 = document.forms["oscillator1"].elements["volume"];
+    volume1.addEventListener("change", function() {
+        synth.setVolume(parseFloat(this.value));
+    });
+
+    var volume2 = document.forms["oscillator2"].elements["volume"];
+    volume2.addEventListener("change", function() {
         synth.setVolume(parseFloat(this.value));
     });
     
     // Panning
-    var pan = document.forms["waveType"].elements["pan"];
-    pan.addEventListener("change", function() {
+    var pan1 = document.forms["oscillator1"].elements["pan"];
+    pan1.addEventListener("change", function() {
+        synth.setPan(parseFloat(this.value));
+    });
+
+    var pan2 = document.forms["oscillator2"].elements["pan"];
+    pan2.addEventListener("change", function() {
         synth.setPan(parseFloat(this.value));
     });
 
