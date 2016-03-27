@@ -8,53 +8,53 @@ var init = function(){
     // Phase
     var phase1 = document.forms["oscillator1"].elements["phase"];
     phase1.addEventListener("change", function() {
-        synth.setPhase(this.value);
+        synth.setPhase(this.value, 0);
     });
 
     var phase2 = document.forms["oscillator2"].elements["phase"];
     phase2.addEventListener("change", function() {
-        synth.setPhase(this.value);
+        synth.setPhase(this.value, 1);
     });
 
     // Waveforms
     var radios1 = document.forms["oscillator1"].elements["wave"];
     for(var i = 0, max = radios1.length; i < max; i++) {
         radios1[i].onclick = function() {
-            synth.setWaveForm(this.value);
+            synth.setWaveForm(this.value, 0);
             // need to set phase every time we change wave form
-            synth.setPhase(phase1.value);
+            synth.setPhase(phase1.value, 0);
         };
     }
 
     var radios2 = document.forms["oscillator2"].elements["wave"];
     for(var i = 0, max = radios2.length; i < max; i++) {
         radios2[i].onclick = function() {
-            synth.setWaveForm(this.value);
+            synth.setWaveForm(this.value, 1);
             // need to set phase every time we change wave form
-            synth.setPhase(phase2.value);
+            synth.setPhase(phase2.value, 1);
         };
     }
 
     // Volume
     var volume1 = document.forms["oscillator1"].elements["volume"];
     volume1.addEventListener("change", function() {
-        synth.setVolume(parseFloat(this.value));
+        synth.setVolume(parseFloat(this.value), 0);
     });
 
     var volume2 = document.forms["oscillator2"].elements["volume"];
     volume2.addEventListener("change", function() {
-        synth.setVolume(parseFloat(this.value));
+        synth.setVolume(parseFloat(this.value), 1);
     });
     
     // Panning
     var pan1 = document.forms["oscillator1"].elements["pan"];
     pan1.addEventListener("change", function() {
-        synth.setPan(parseFloat(this.value));
+        synth.setPan(parseFloat(this.value), 0);
     });
 
     var pan2 = document.forms["oscillator2"].elements["pan"];
     pan2.addEventListener("change", function() {
-        synth.setPan(parseFloat(this.value));
+        synth.setPan(parseFloat(this.value), 1);
     });
 
     // ADSR for amplitude
