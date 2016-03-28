@@ -116,7 +116,6 @@ function reverbObject(url,t) {
     loadAudio(url,t);
 }
 
-
 //TODO: REFACTOR THIS MONSTROSITY
 Synth.prototype.play = function(freq){
 
@@ -144,17 +143,18 @@ Synth.prototype.play = function(freq){
         voice.volumeNode[1] = this.context.createGain();
         voice.volumeNode[1].gain.setValueAtTime(this.volume[1], this.context.currentTime);
 
+        // Waveform mixer node - master volume basically
+        voice.mixerNode = this.context.createGain();
+        voice.mixerNode.gain.setValueAtTime(0.0, this.context.currentTime);
+
         // Reverb
         if (this.reverb.enabled) {
             voice.convolver = this.context.createConvolver();
             voice.convolver.buffer = this.buffer;
-            // probably shouldn't be using volumeNode[0] here
-            // need to create a master volume node?
-            voice.volumeNode[0].connect(voice.convolver);
+            voice.mixerNode.connect(voice.convolver);
             voice.convolver.connect(this.context.destination);
         }
         
-
         // Stereo Pan
         voice.panNode = [];
         voice.panNode[0] = this.context.createStereoPanner();
@@ -231,12 +231,21 @@ Synth.prototype.play = function(freq){
         voice.oscillator[0].start();
         voice.oscillator[0].connect(voice.volumeNode[0]);
         voice.volumeNode[0].connect(voice.panNode[0]);
-        voice.panNode[0].connect(this.context.destination);
+        voice.panNode[0].connect(voice.mixerNode);
 
         voice.oscillator[1].start();
         voice.oscillator[1].connect(voice.volumeNode[1]);
         voice.volumeNode[1].connect(voice.panNode[1]);
-        voice.panNode[1].connect(this.context.destination);
+        voice.panNode[1].connect(voice.mixerNode);
+
+        // If we start oscillating our waveform when it's not at a zero-crossing we 
+        // get an annoying click. This mitigates that.
+        voice.mixerNode.gain.setTargetAtTime(
+            (this.volume[0] + this.volume[1]) / 2.0, 
+            this.context.currentTime, 0.015);
+
+        voice.mixerNode.connect(this.context.destination);
+        
     }
 };
 
@@ -244,18 +253,9 @@ Synth.prototype.stop = function(freq){
 
     var voice = this.voices[freq];
     if (voice !== undefined){
-        // Start release phase of ADSR envelope if enabled
-        if (voice.env !== undefined){
-            voice.env.finish();
-            if (this.envelopeOpts1.param !== "volume"){
-                voice.oscillator[0].stop();
-                voice.oscillator[1].stop();
-            }
-        }
-        else{
-            voice.oscillator[0].stop();
-            voice.oscillator[1].stop();
-        }
+        // If we stop oscillating abruptly when we're not at a zero-crossing we 
+        // get a click. So we quickly fade out instead.
+        voice.mixerNode.gain.setTargetAtTime(0, this.context.currentTime, 0.015);
         delete this.voices[freq];
     }
 };
