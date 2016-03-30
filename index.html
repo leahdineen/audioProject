@@ -202,7 +202,27 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12">
+        <div class="col s4">
+            Filter 1
+            <form name="filter1">
+                <p class="input-field">
+                    <select class="browser-default" name="type">
+                        <option selected disabled value="title">Choose Type</option>
+                        <option value ="lowpass">Lowpass</option>
+                        <option value ="highpass">Highpass</option>
+                    </select>
+                </p>
+                </p class="range-field">
+                    <label for="filter1-frequency">Frequency</label>
+                    <input type="range" id="filter1-frequency" name="frequency" min="0" max="50" step="1" value="5">
+                </p>
+                <p>
+                    <input type="checkbox" id="filter1-enabled" name="enabled" value="enabled"/>
+                    <label for="filter1-enabled">Enabled</label>
+                </p>
+            </form>
+        </div>
+        <div class="col s4">
             Reverb
             <form name="reverb">
                 </p class="range-field">
@@ -228,6 +248,26 @@
                 <p>
                     <input type="checkbox" id="reverb-enabled" name="enabled" value="enabled"/>
                     <label for="reverb-enabled">Enabled</label>
+                </p>
+            </form>
+        </div>
+        <div class="col s4">
+            Filter 2
+            <form name="filter2">
+                <p class="input-field">
+                    <select class="browser-default" name="type">
+                        <option selected disabled value="title">Choose Type</option>
+                        <option value ="lowpass">Lowpass</option>
+                        <option value ="highpass">Highpass</option>
+                    </select>
+                </p>
+                </p class="range-field">
+                    <label for="filter2-frequency">Frequency</label>
+                    <input type="range" id="filter2-frequency" name="frequency" min="0" max="50" step="1" value="5">
+                </p>
+                <p>
+                    <input type="checkbox" id="filter2-enabled" name="enabled" value="enabled"/>
+                    <label for="filter2-enabled">Enabled</label>
                 </p>
             </form>
         </div>
