@@ -94,6 +94,21 @@ var init = function(){
         synth.lfoOpts1.enabled = !synth.lfoOpts1.enabled;
     });
 
+    // LFO2
+    var lfo2 = document.forms["lfo2"];
+    lfo2.elements["param"].addEventListener("change", function(){
+        synth.lfoOpts2.param = this.value;
+    });
+    lfo2.elements["rate"].addEventListener("change", function(){
+        synth.lfoOpts2.frequency = this.value;
+    });
+    lfo2.elements["gain"].addEventListener("change", function(){
+        synth.lfoOpts2.gain = this.value;
+    });
+    lfo2.elements["enabled"].addEventListener("click", function(){
+        synth.lfoOpts2.enabled = !synth.lfoOpts2.enabled;
+    });
+
     // Reverb
     var reverb = document.forms["reverb"];
     reverb.elements["enabled"].addEventListener("click", function(){

@@ -47,6 +47,14 @@ Synth.prototype.init = function(opts){
         "enabled": false
     };
 
+    // Default LFO1 options
+    this.lfoOpts2 = {
+        "param" : "volume",
+        "frequency":  2.0,
+        "gain" : 0.25,
+        "enabled": false
+    };
+
     this.reverb = {
         "enabled": false
     };
@@ -162,7 +170,9 @@ Synth.prototype.play = function(freq){
         voice.panNode[1] = this.context.createStereoPanner();
         voice.panNode[1].pan.value = this.pan[1];
 
-        // LFO
+        voice.lfo = []
+
+        // LFO 1
         if (this.lfoOpts1.enabled){
             var opts = {};
             for(var o in this.lfoOpts1) opts[o] = this.lfoOpts1[o];
@@ -188,8 +198,38 @@ Synth.prototype.play = function(freq){
                     oscParam = voice.volumeNode[0].gain;
                     break;
             }
-            voice.lfo = new LFO(opts, this.context);
-            voice.lfo.oscillate(oscParam);
+            voice.lfo[0] = new LFO(opts, this.context);
+            voice.lfo[0].oscillate(oscParam);
+        }
+
+        // LFO 2
+        if (this.lfoOpts2.enabled){
+            var opts = {};
+            for(var o in this.lfoOpts2) opts[o] = this.lfoOpts2[o];
+            var oscParam;
+            switch(opts.param){
+                case "frequency":
+                    // How many half steps our frequency range will be
+                    var halfSteps = opts.gain * 10;
+                    // Math to determine oscillation frequency
+                    // See: https://en.wikipedia.org/wiki/Piano_key_frequencies
+                    opts.gain = Math.abs(Math.pow(2, halfSteps / 12) * freq - freq) / 2;
+                    oscParam = voice.oscillator[1].frequency;
+                    break;
+                case "volume":
+                    oscParam = voice.volumeNode[1].gain;
+                    break;
+                case "pan":
+                    // Need to scale pan since its values lie in [-1, 1] rather than [0, 1]
+                    opts.gain = opts.gain * 2.0 - 1;
+                    oscParam = voice.panNode[1].pan;
+                    break;
+                default:
+                    oscParam = voice.volumeNode[1].gain;
+                    break;
+            }
+            voice.lfo[1] = new LFO(opts, this.context);
+            voice.lfo[1].oscillate(oscParam);
         }
 
         // ADSR Envelope
