@@ -98,6 +98,12 @@ Synth.prototype.setWaveForm = function(type, osc){
             this.imag[osc][i] =  (2.0 * Math.pow(-1, i)) / (Math.PI * i);
         }
     }
+    
+    // normalize the waves
+    var max = Math.max.apply(null, this.imag[osc].map(Math.abs));
+    for(var i = 1; i < 4096; i++){
+        this.imag[osc][i] /= max;
+    }
 };
 
 Synth.prototype.setPhase = function(val, osc){
