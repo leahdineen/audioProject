@@ -66,6 +66,20 @@ Synth.prototype.init = function(opts){
         "enabled": false
     };
 
+    // Default filter1 options
+    this.filterOpts1 = {
+        "type" : "lowpass",
+        "frequency" : 20000,
+        "enabled" : false
+    };
+
+    // Default filter2 options
+    this.filterOpts2 = {
+        "type" : "lowpass",
+        "frequency" : 20000,
+        "enabled" : false
+    };
+
     this.reverb = {
         "enabled": false
     };
@@ -326,6 +340,28 @@ Synth.prototype.play = function(freq){
         voice.oscillator[1].connect(voice.volumeNode[1]);
         voice.volumeNode[1].connect(voice.panNode[1]);
         voice.panNode[1].connect(voice.mixerNode);
+
+        voice.filter = [];
+
+        // Filter 1
+        if (this.filterOpts1.enabled){
+            voice.filter[0] = this.context.createBiquadFilter();
+            voice.filter[0].type = this.filterOpts1.type;
+            voice.filter[0].frequency.value = this.filterOpts1.frequency;
+            voice.panNode[0].disconnect();
+            voice.panNode[0].connect(voice.filter[0]);
+            voice.filter[0].connect(voice.mixerNode);
+        }
+
+        // Filter 2
+        if (this.filterOpts2.enabled){
+            voice.filter[1] = this.context.createBiquadFilter();
+            voice.filter[1].type = this.filterOpts2.type;
+            voice.filter[1].frequency.value = this.filterOpts2.frequency;
+            voice.panNode[1].disconnect();
+            voice.panNode[1].connect(voice.filter[1]);
+            voice.filter[1].connect(voice.mixerNode);
+        }
 
         // If we start oscillating our waveform when it's not at a zero-crossing we 
         // get an annoying click. This mitigates that.

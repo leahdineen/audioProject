@@ -129,6 +129,34 @@ var init = function(){
         synth.lfoOpts2.enabled = !synth.lfoOpts2.enabled;
     });
 
+    // Filter 1
+    var filter1 = document.forms["filter1"];
+    filter1.elements["type"].addEventListener("change", function(){
+        synth.filterOpts1.type = this.value;
+    });
+    filter1.elements["frequency"].addEventListener("change", function(){
+        // Frequency isn't represented very well on a linear scale
+        // like range sliders have, so we need to change the scaling.
+        synth.filterOpts1.frequency = logScale(this.value, 0, 50, 10, 20000);
+    });
+    filter1.elements["enabled"].addEventListener("change", function(){
+        synth.filterOpts1.enabled = !synth.filterOpts1.enabled;
+    });
+
+    // Filter 2
+    var filter2 = document.forms["filter2"];
+    filter2.elements["type"].addEventListener("change", function(){
+        synth.filterOpts2.type = this.value;
+    });
+    filter2.elements["frequency"].addEventListener("change", function(){
+        // Frequency isn't represented very well on a linear scale
+        // like range sliders have, so we need to change the scaling.
+        synth.filterOpts2.frequency = logScale(this.value, 0, 50, 10, 20000);
+    });
+    filter2.elements["enabled"].addEventListener("change", function(){
+        synth.filterOpts2.enabled = !synth.filterOpts2.enabled;
+    });
+
     // Reverb
     var reverb = document.forms["reverb"];
     reverb.elements["enabled"].addEventListener("click", function(){
