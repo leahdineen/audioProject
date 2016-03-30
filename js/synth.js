@@ -39,6 +39,17 @@ Synth.prototype.init = function(opts){
         "enabled" : false
     };
 
+    // Default envelope parameters
+    this.envelopeOpts2 = {
+        "param" : "volume",
+        "attack" : 0,
+        "decay" : 0,
+        "sustain" : 0.5,
+        "release" : 0,
+        "max" : 1,
+        "enabled" : false
+    };
+
     // Default LFO1 options
     this.lfoOpts1 = {
         "param" : "volume",
@@ -232,7 +243,9 @@ Synth.prototype.play = function(freq){
             voice.lfo[1].oscillate(oscParam);
         }
 
-        // ADSR Envelope
+        voice.env = []
+
+        // ADSR Envelope 1
         if (this.envelopeOpts1.enabled){
             var opts = {};
             for(var o in this.envelopeOpts1) opts[o] = this.envelopeOpts1[o];
@@ -263,9 +276,45 @@ Synth.prototype.play = function(freq){
                     break;
             }
 
-            voice.env = new Envelope(opts, this.context);
-            voice.env.connect(envParam);
-            voice.env.trigger();
+            voice.env[0] = new Envelope(opts, this.context);
+            voice.env[0].connect(envParam);
+            voice.env[0].trigger();
+        }
+
+        // ADSR Envelope 2
+        if (this.envelopeOpts2.enabled){
+            var opts = {};
+            for(var o in this.envelopeOpts2) opts[o] = this.envelopeOpts2[o];
+            var envParam;
+            switch(opts.param){
+                case "frequency":
+                    // Peak of attack is at main frequency
+                    opts.max = freq;
+
+                    // How many half steps we sustain to
+                    var halfSteps = (opts.sustain - 0.5) * 10;
+
+                    // Math to determine sustain frequency
+                    // See: https://en.wikipedia.org/wiki/Piano_key_frequencies
+                    opts.sustain = Math.pow(2, halfSteps / 12) * freq;
+                    envParam = voice.oscillator[1].frequency;
+                    break;
+                case "volume":
+                    envParam = voice.volumeNode[1].gain;
+                    break;
+                case "pan":
+                    // Map pan sustain from [0, 1] to [-1, 1]
+                    opts.sustain = this.envelopeOpts1.sustain * 2.0 - 1;
+                    envParam = voice.panNode[1].pan;
+                    break;
+                default:
+                    envParam = voice.volumeNode[1];
+                    break;
+            }
+
+            voice.env[1] = new Envelope(opts, this.context);
+            voice.env[1].connect(envParam);
+            voice.env[1].trigger();
         }
 
         voice.oscillator[0].start();

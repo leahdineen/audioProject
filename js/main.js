@@ -57,7 +57,7 @@ var init = function(){
         synth.setPan(parseFloat(this.value), 1);
     });
 
-    // ADSR for amplitude
+    // ADSR1 
     var envelope = document.forms["adsr1"];
     envelope.elements["param"].addEventListener("change", function(){
         synth.envelopeOpts1.param = this.value;
@@ -78,6 +78,26 @@ var init = function(){
         synth.envelopeOpts1.enabled = !synth.envelopeOpts1.enabled;
     });
 
+    // ADSR2
+    var envelope2 = document.forms["adsr2"];
+    envelope2.elements["param"].addEventListener("change", function(){
+        synth.envelopeOpts2.param = this.value;
+    });
+    envelope2.elements["attack"].addEventListener("change", function(){
+        synth.envelopeOpts2.attack = parseFloat(this.value);
+    });
+    envelope2.elements["decay"].addEventListener("change", function(){
+        synth.envelopeOpts2.decay = parseFloat(this.value);
+    });
+    envelope2.elements["sustain"].addEventListener("change", function(){
+        synth.envelopeOpts2.sustain = parseFloat(this.value);
+    });
+    envelope2.elements["release"].addEventListener("change", function(){
+        synth.envelopeOpts2.release = parseFloat(this.value);
+    });
+    envelope2.elements["enabled"].addEventListener("click", function(){
+        synth.envelopeOpts2.enabled = !synth.envelopeOpts2.enabled;
+    });
 
     // LFO1
     var lfo1 = document.forms["lfo1"];

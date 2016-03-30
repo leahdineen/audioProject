@@ -143,31 +143,35 @@
             </form>
         </div>
         <div class="col s4">
-            Reverb
-            <form name="reverb">
-                </p class="range-field">
-                    <label for="reverb-initial-delay">Inital Delay</label>
-                    <input type="range" id="reverb-intial-delay" name="delay" min="0" max="5" step="0.5" value="0">
+            ADSR Envelope 2
+            <form name="adsr2">
+                <p class="input-field">
+                    <select class="browser-default" name="param">
+                        <option selected disabled value="title">Choose Parameter</option>
+                        <option value ="frequency">Frequency</option>
+                        <option value ="volume">Volume</option>
+                        <option value ="pan">Pan</option>
+                    </select>
                 </p>
                 </p class="range-field">
-                    <label for="reverb-reverb-time">Reverb Time</label>
-                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                    <label for="attack">A</label>
+                    <input type="range" id="attack2" name="attack" min="0" max="2" step="0.1" value="0">
                 </p>
                 </p class="range-field">
-                    <label for="reverb-reverb-time">Low Frequnecy Filter</label>
-                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                    <label for="decay">D</label>
+                    <input type="range" id="decay2" name="decay" min="0" max="2" step="0.1" value="0">
                 </p>
                 </p class="range-field">
-                    <label for="reverb-reverb-time">High Frequency Filter</label>
-                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                    <label for="sustain">S</label>
+                    <input type="range" id="sustain2" name="sustain" min="0" max="1" step="0.1" value="0.5">
                 </p>
                 </p class="range-field">
-                    <label for="reverb-reverb-time">Wetness</label>
-                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                    <label for="release">R</label>
+                    <input type="range" id="release2" name="release" min="0" max="2" step="0.1" value="0">
                 </p>
                 <p>
-                    <input type="checkbox" id="reverb-enabled" name="enabled" value="enabled"/>
-                    <label for="reverb-enabled">Enabled</label>
+                    <input type="checkbox" id="adsr2-enabled" name="enabled" value="enabled"/>
+                    <label for="adsr2-enabled">Enabled</label>
                 </p>
             </form>
         </div>
@@ -193,6 +197,37 @@
                 <p>
                     <input type="checkbox" id="lfo2-enabled" name="enabled" value="enabled"/>
                     <label for="lfo2-enabled">Enabled</label>
+                </p>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            Reverb
+            <form name="reverb">
+                </p class="range-field">
+                    <label for="reverb-initial-delay">Inital Delay</label>
+                    <input type="range" id="reverb-intial-delay" name="delay" min="0" max="5" step="0.5" value="0">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">Reverb Time</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">Low Frequnecy Filter</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">High Frequency Filter</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                </p class="range-field">
+                    <label for="reverb-reverb-time">Wetness</label>
+                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                </p>
+                <p>
+                    <input type="checkbox" id="reverb-enabled" name="enabled" value="enabled"/>
+                    <label for="reverb-enabled">Enabled</label>
                 </p>
             </form>
         </div>
