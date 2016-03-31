@@ -64,7 +64,7 @@ var init = function(){
     // ADSR1 
     var envelope = document.forms["adsr1"];
     envelope.elements["param"].addEventListener("change", function(values){
-        synth.envelopeOpts1.param = parseFloat(values[0]);
+        synth.envelopeOpts1.param = this.value;
     });
     var attack1 = document.getElementById('attack1');
     attack1.noUiSlider.on('update', function(values) {
@@ -82,7 +82,8 @@ var init = function(){
     release1.noUiSlider.on('update', function(values) {
         synth.envelopeOpts1.release = parseFloat(values[0]);
     });
-    envelope.elements["enabled"].addEventListener("click", function(){
+    var adsr1_enabled = document.getElementById('adsr1-enabled');
+    adsr1_enabled.addEventListener("click", function(){
         synth.envelopeOpts1.enabled = !synth.envelopeOpts1.enabled;
     });
 
@@ -107,7 +108,8 @@ var init = function(){
     release2.noUiSlider.on('update', function(values) {
         synth.envelopeOpts2.release = parseFloat(values[0]);
     });
-    envelope2.elements["enabled"].addEventListener("click", function(){
+    var adsr2_enabled = document.getElementById('adsr2-enabled');
+    adsr2_enabled.addEventListener("click", function(){
         synth.envelopeOpts2.enabled = !synth.envelopeOpts2.enabled;
     });
 
@@ -124,7 +126,8 @@ var init = function(){
     lfo1_gain.noUiSlider.on('update', function(values) {
         synth.lfoOpts1.gain = parseFloat(values[0]);
     });
-    lfo1.elements["enabled"].addEventListener("click", function(){
+    var lfo1_enabled = document.getElementById('lfo1-enabled');
+    lfo1_enabled.addEventListener("click", function(){
         synth.lfoOpts1.enabled = !synth.lfoOpts1.enabled;
     });
 
@@ -141,7 +144,8 @@ var init = function(){
     lfo2_gain.noUiSlider.on('update', function(values) {
         synth.lfoOpts2.gain = parseFloat(values[0]);
     });
-    lfo2.elements["enabled"].addEventListener("click", function(){
+    var lfo2_enabled = document.getElementById('lfo2-enabled');
+    lfo2_enabled.addEventListener("click", function(){
         synth.lfoOpts2.enabled = !synth.lfoOpts2.enabled;
     });
 
@@ -156,7 +160,8 @@ var init = function(){
         // like range sliders have, so we need to change the scaling.
         synth.filterOpts1.frequency = logScale(parseFloat(values[0]), 0, 50, 10, 20000);
     });
-    filter1.elements["enabled"].addEventListener("change", function(){
+    var filter1_enabled = document.getElementById('filter1-enabled');
+    filter1_enabled.addEventListener("click", function(){
         synth.filterOpts1.enabled = !synth.filterOpts1.enabled;
     });
 
@@ -171,7 +176,8 @@ var init = function(){
         // like range sliders have, so we need to change the scaling.
         synth.filterOpts2.frequency = logScale(parseFloat(values[0]), 0, 50, 10, 20000);
     });
-    filter2.elements["enabled"].addEventListener("change", function(){
+    var filter2_enabled = document.getElementById('filter2-enabled');
+    filter2_enabled.addEventListener("click", function(){
         synth.filterOpts2.enabled = !synth.filterOpts2.enabled;
     });
 

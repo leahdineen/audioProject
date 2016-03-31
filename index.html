@@ -17,11 +17,16 @@
 <body>
 <div id="content" class="container">
     <div class="row">
-        <div class="col s4 component">
+        <div class="col l12 title center-align">
+            Synth it up
+        </div>
+    </div>
+    <div class="row">
+        <div class="col l4 component">
             Oscillator1
             <form name="oscillator1">
                 <div class="row">
-                    <div class="col s3">
+                    <div class="col l3">
                         <p>
                             <input id="sine1" type="radio" name="wave" value="sine" checked>
                             <label for="sine1">Sine</label>
@@ -39,25 +44,39 @@
                             <label for="triangle1">Triangle</label>
                         </p>
                     </div>
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">Vol</div>
                         <div id="vol1" class="vertSlider"></div>
                     </div>
 
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">Phase</div>
                         <div id="phase1" class="vertSlider"></div>
                     </div>
 
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">Pan</div>
                         <div id="pan1" class="vertSlider"></div>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col s4 component">
-            ADSR Envelope 1
+        <div class="col l4 component">
+            <div class="row">
+                <div class="col l6">
+                    ADSR Envelope 1
+                </div>
+                <div class="col l6">
+                    <div class="switch right">
+                        <label>
+                            Off
+                            <input type="checkbox" id="adsr1-enabled" name="enabled" value="enabled">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </div>
+            </div>
             <form name="adsr1">
                 <p class="input-field">
                     <select class="browser-default" name="param">
@@ -68,34 +87,30 @@
                     </select>
                 </p>
                 <div class="row">
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">A</div>
                         <div id="attack1" class="vertSlider"></div>
                     </div>
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">D</div>
                         <div id="decay1" class="vertSlider"></div>
                     </div>
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">S</div>
                         <div id="sustain1" class="vertSlider"></div>
                     </div>
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">R</div>
                         <div id="release1" class="vertSlider"></div>
                     </div>
                 </div>
-                <p>
-                    <input type="checkbox" id="adsr1-enabled" name="enabled" value="enabled"/>
-                    <label for="adsr1-enabled">Enabled</label>
-                </p>
             </form>
         </div>
-        <div class="col s4 component">
+        <div class="col l4 component">
             Oscillator2
             <form name="oscillator2">
                 <div class="row">
-                    <div class="col s3">
+                    <div class="col l3">
                         <p>
                             <input id="sine2" type="radio" name="wave" value="sine" checked>
                             <label for="sine2">Sine</label>
@@ -113,17 +128,17 @@
                             <label for="triangle2">Triangle</label>
                         </p>
                     </div>
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">Vol</div>
                         <div id="vol2" class="vertSlider"></div>
                     </div>
 
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">Phase</div>
                         <div id="phase2" class="vertSlider"></div>
                     </div>
 
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">Pan</div>
                         <div id="pan2" class="vertSlider"></div>
                     </div>
@@ -133,8 +148,22 @@
     </div>
     
     <div class="row">
-        <div class="col s4 component">
-            LFO 1
+        <div class="col l4 component">
+            <div class="row">
+                <div class="col l6">
+                    LFO 1
+                </div>
+                <div class="col l6">
+                    <div class="switch right">
+                        <label>
+                            Off
+                            <input type="checkbox" id="lfo1-enabled" name="enabled" value="enabled">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </div>
+            </div>
             <form name="lfo1">
                 <p class="input-field">
                     <select class="browser-default" name="param">
@@ -145,23 +174,33 @@
                     </select>
                 </p>
                 <div class="row">
-                    <div class="col s6">
+                    <div class="col l6">
                         <div class="label">Rate</div>
                         <div id="lfo1-rate" class="vertSlider"></div>
                     </div>
-                    <div class="col s6">
+                    <div class="col l6">
                         <div class="label">Gain</div>
                         <div id="lfo1-gain" class="vertSlider"></div>
                     </div>
                 </div>
-                <p>
-                    <input type="checkbox" id="lfo1-enabled" name="enabled" value="enabled"/>
-                    <label for="lfo1-enabled">Enabled</label>
-                </p>
             </form>
         </div>
-        <div class="col s4 component">
-            ADSR Envelope 2
+        <div class="col l4 component">
+            <div class="row">
+                <div class="col l6">
+                    ADSR Envelope 2
+                </div>
+                <div class="col l6">
+                    <div class="switch right">
+                        <label>
+                            Off
+                            <input type="checkbox" id="adsr2-enabled" name="enabled" value="enabled">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </div>
+            </div>
             <form name="adsr2">
                 <p class="input-field">
                     <select class="browser-default" name="param">
@@ -172,31 +211,41 @@
                     </select>
                 </p>
                 <div class="row">
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">A</div>
                         <div id="attack2" class="vertSlider"></div>
                     </div>
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">D</div>
                         <div id="decay2" class="vertSlider"></div>
                     </div>
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">S</div>
                         <div id="sustain2" class="vertSlider"></div>
                     </div>
-                    <div class="col s3">
+                    <div class="col l3">
                         <div class="label">R</div>
                         <div id="release2" class="vertSlider"></div>
                     </div>
                 </div>
-                <p>
-                    <input type="checkbox" id="adsr2-enabled" name="enabled" value="enabled"/>
-                    <label for="adsr2-enabled">Enabled</label>
-                </p>
             </form>
         </div>
-        <div class="col s4 component">
-            LFO 2
+        <div class="col l4 component">
+            <div class="row">
+                <div class="col l6">
+                    LFO 2
+                </div>
+                <div class="col l6">
+                    <div class="switch right">
+                        <label>
+                            Off
+                            <input type="checkbox" id="lfo2-enabled" name="enabled" value="enabled">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </div>
+            </div>
             <form name="lfo2">
                 <p class="input-field">
                     <select class="browser-default" name="param">
@@ -207,25 +256,35 @@
                     </select>
                 </p>
                 <div class="row">
-                    <div class="col s6">
+                    <div class="col l6">
                         <div class="label">Rate</div>
                         <div id="lfo2-rate" class="vertSlider"></div>
                     </div>
-                    <div class="col s6">
+                    <div class="col l6">
                         <div class="label">Gain</div>
                         <div id="lfo2-gain" class="vertSlider"></div>
                     </div>
                 </div>
-                <p>
-                    <input type="checkbox" id="lfo2-enabled" name="enabled" value="enabled"/>
-                    <label for="lfo2-enabled">Enabled</label>
-                </p>
             </form>
         </div>
     </div>
     <div class="row">
-        <div class="col s4 component">
-            Filter 1
+        <div class="col l4 component">
+            <div class="row">
+                <div class="col l6">
+                    Filter 1
+                </div>
+                <div class="col l6">
+                    <div class="switch right">
+                        <label>
+                            Off
+                            <input type="checkbox" id="filter1-enabled" name="enabled" value="enabled">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </div>
+            </div>
             <form name="filter1">
                 <p class="input-field">
                     <select class="browser-default" name="type">
@@ -235,18 +294,14 @@
                     </select>
                 </p>
                 <div class="row">
-                    <div class="col s12">
+                    <div class="col l12">
                         <div class="label">Frequency</div>
                         <div id="filter1-frequency" class="vertSlider"></div>
                     </div>
                 </div>
-                <p>
-                    <input type="checkbox" id="filter1-enabled" name="enabled" value="enabled"/>
-                    <label for="filter1-enabled">Enabled</label>
-                </p>
             </form>
         </div>
-        <div class="col s4 component">
+        <div class="col l4 component">
             Reverb
             <form name="reverb">
                 <p class="range-field">
@@ -275,8 +330,22 @@
                 </p>
             </form>
         </div>
-        <div class="col s4 component">
-            Filter 2
+        <div class="col l4 component">
+            <div class="row">
+                <div class="col l6">
+                    Filter 2
+                </div>
+                <div class="col l6">
+                    <div class="switch right">
+                        <label>
+                            Off
+                            <input type="checkbox" id="filter2-enabled" name="enabled" value="enabled">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </div>
+            </div>
             <form name="filter2">
                 <p class="input-field">
                     <select class="browser-default" name="type">
@@ -286,15 +355,11 @@
                     </select>
                 </p>
                 <div class="row">
-                    <div class="col s12">
+                    <div class="col l12">
                         <div class="label">Frequency</div>
                         <div id="filter2-frequency" class="vertSlider"></div>
                     </div>
                 </div>
-                <p>
-                    <input type="checkbox" id="filter2-enabled" name="enabled" value="enabled"/>
-                    <label for="filter2-enabled">Enabled</label>
-                </p>
             </form>
         </div>
     </div> 

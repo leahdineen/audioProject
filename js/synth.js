@@ -372,7 +372,7 @@ Synth.prototype.play = function(freq){
         // If we start oscillating our waveform when it's not at a zero-crossing we 
         // get an annoying click. This mitigates that.
         voice.mixerNode.gain.setTargetAtTime(
-            (this.volume[0] + this.volume[1]) / 2.0, 
+            (this.volume[0] + this.volume[1]) / 2.0,
             this.context.currentTime, 0.015);
 
         voice.mixerNode.connect(this.context.destination);
