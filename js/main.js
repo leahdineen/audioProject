@@ -182,10 +182,39 @@ var init = function(){
     });
 
     // Reverb
-    var reverb = document.forms["reverb"];
-    reverb.elements["enabled"].addEventListener("click", function(){
+    // var reverb = document.forms["reverb"];
+    // reverb.elements["enabled"].addEventListener("click", function(){
+    //     synth.reverb.enabled = !synth.reverb.enabled;
+    // });
+    var reverb_enabled = document.getElementById('reverb-enabled');
+    reverb_enabled.addEventListener("click", function(){
         synth.reverb.enabled = !synth.reverb.enabled;
     });
+    var rid = document.getElementById('reverb-initial-delay');
+    rid.noUiSlider.on('update', function(values) {
+        //want to use parseFloat(values[0]) to get value of slider
+    });
+    var rrd = document.getElementById('reverb-reverb-time');
+    rrd.noUiSlider.on('update', function(values) {
+
+    });
+    var damp = document.getElementById('reverb-damping');
+    damp.noUiSlider.on('update', function(values) {
+
+    });
+    var rlf = document.getElementById('reverb-low-frequency');
+    rlf.noUiSlider.on('update', function(values) {
+
+    });
+    var rhf = document.getElementById('reverb-high-frequency');
+    rhf.noUiSlider.on('update', function(values) {
+
+    });
+    var wet = document.getElementById('reverb-wetness');
+    wet.noUiSlider.on('update', function(values) {
+
+    });
+
 };
 
 document.addEventListener("DOMContentLoaded", function(event){
