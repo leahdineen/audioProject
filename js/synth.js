@@ -141,13 +141,14 @@ Synth.prototype.setPan = function(val, osc){
 };
 
 function buildImpulse (context, convolver) {
-      var rate = context.sampleRate
-        , length = rate * 1.0//* this.seconds
-        , decay = 0//this.decay
-        , impulse = context.createBuffer(2, length, rate)
-        , impulseL = impulse.getChannelData(0)
-        , impulseR = impulse.getChannelData(1)
-        , n, i;
+      var rate = context.sampleRate,
+        length = rate * 1.0,//* this.seconds
+        decay = 0,//this.decay
+        impulse = context.createBuffer(2, length, rate),
+        impulseL = impulse.getChannelData(0),
+        impulseR = impulse.getChannelData(1),
+        n, 
+        i;
 
       for (i = 0; i < length; i++) {
         n = i;
@@ -195,7 +196,7 @@ Synth.prototype.play = function(freq){
             buildImpulse(this.context, voice.convolver);
             
             voice.reverbDelay = this.context.createDelay();
-            voice.reverbDelay.delayTime.value = 0;
+            voice.reverbDelay.delayTime.value = this.reverb.delay;
             
             voice.convolver.connect(voice.reverbDelay);
             voice.mixerNode.connect(voice.convolver);
