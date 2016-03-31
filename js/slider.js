@@ -3,6 +3,7 @@ var vol1 = document.getElementById('vol1');
 noUiSlider.create(vol1, {
     start: 0.5,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 1
@@ -17,6 +18,7 @@ var phase1 = document.getElementById('phase1');
 noUiSlider.create(phase1, {
     start: 0,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 360
@@ -42,11 +44,16 @@ noUiSlider.create(pan1, {
     }
 });
 
+var children = pan1.getElementsByClassName('noUi-value');
+children[0].innerHTML = 'L';
+children[1].innerHTML = 'R';
+
 // Oscillator 2
 var vol2 = document.getElementById('vol2');
 noUiSlider.create(vol2, {
     start: 0.5,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 1
@@ -61,6 +68,7 @@ var phase2 = document.getElementById('phase2');
 noUiSlider.create(phase2, {
     start: 0,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 360
@@ -86,11 +94,16 @@ noUiSlider.create(pan2, {
     }
 });
 
+var children = pan2.getElementsByClassName('noUi-value');
+children[0].innerHTML = 'L';
+children[1].innerHTML = 'R';
+
 // ADSR 1
 var attack1 = document.getElementById('attack1');
 noUiSlider.create(attack1, {
     start: 0,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 2
@@ -105,6 +118,7 @@ var decay1 = document.getElementById('decay1');
 noUiSlider.create(decay1, {
     start: 0,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 2
@@ -119,6 +133,7 @@ var sustain1 = document.getElementById('sustain1');
 noUiSlider.create(sustain1, {
     start: 0.5,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 1
@@ -133,6 +148,7 @@ var release1 = document.getElementById('release1');
 noUiSlider.create(release1, {
     start: 0,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 2
@@ -148,6 +164,7 @@ var attack2 = document.getElementById('attack2');
 noUiSlider.create(attack2, {
     start: 0,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 2
@@ -162,6 +179,7 @@ var decay2 = document.getElementById('decay2');
 noUiSlider.create(decay2, {
     start: 0,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 2
@@ -176,6 +194,7 @@ var sustain2 = document.getElementById('sustain2');
 noUiSlider.create(sustain2, {
     start: 0.5,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 1
@@ -190,6 +209,7 @@ var release2 = document.getElementById('release2');
 noUiSlider.create(release2, {
     start: 0,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 2
@@ -205,6 +225,7 @@ var lfo1_rate = document.getElementById('lfo1-rate');
 noUiSlider.create(lfo1_rate, {
     start: 5,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 10
@@ -219,6 +240,7 @@ var lfo1_gain = document.getElementById('lfo1-gain');
 noUiSlider.create(lfo1_gain, {
     start: 0.25,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 1
@@ -234,6 +256,7 @@ var lfo2_rate = document.getElementById('lfo2-rate');
 noUiSlider.create(lfo2_rate, {
     start: 5,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 10
@@ -248,6 +271,7 @@ var lfo2_gain = document.getElementById('lfo2-gain');
 noUiSlider.create(lfo2_gain, {
     start: 0.25,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 1
@@ -263,6 +287,7 @@ var filter1_frequency = document.getElementById('filter1-frequency');
 noUiSlider.create(filter1_frequency, {
     start: 5,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 50
@@ -272,12 +297,16 @@ noUiSlider.create(filter1_frequency, {
         density: 10
     }
 });
+var children = filter1_frequency.getElementsByClassName('noUi-value');
+children[0].innerHTML = '0';
+children[1].innerHTML = '20';
 
 // Filter 2
 var filter2_frequency = document.getElementById('filter2-frequency');
 noUiSlider.create(filter2_frequency, {
     start: 5,
     orientation: 'vertical',
+    direction: 'rtl',
     range: {
         'min': 0,
         'max': 50
@@ -287,3 +316,6 @@ noUiSlider.create(filter2_frequency, {
         density: 10
     }
 });
+var children = filter2_frequency.getElementsByClassName('noUi-value');
+children[0].innerHTML = '0';
+children[1].innerHTML = '20';
