@@ -86,7 +86,7 @@ Synth.prototype.init = function(opts){
         "damping": 0,
         "low-frequency": 0,
         "high-frequency": 0,
-        "wetness": 0,
+        "wetness": 10,
         "enabled": false
     };
 
@@ -197,10 +197,17 @@ Synth.prototype.play = function(freq){
             
             voice.reverbDelay = this.context.createDelay();
             voice.reverbDelay.delayTime.value = this.reverb.delay;
+
+            voice.wetnessVolume = this.context.createGain();
+            voice.wetnessVolume.gain.value = 0;
+
+            console.log(voice.wetnessVolume)
             
             voice.convolver.connect(voice.reverbDelay);
+            voice.convolver.connect(voice.wetnessVolume);
             voice.mixerNode.connect(voice.convolver);
             voice.reverbDelay.connect(this.context.destination);
+            voice.wetnessVolume.connect(this.context.destination);
         }
         
         // Stereo Pan
