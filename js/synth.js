@@ -83,13 +83,14 @@ Synth.prototype.init = function(opts){
     this.reverb = {
         "delay": 0,
         "reverbTime": 0,
-
+        "damping": 0,
+        "low-frequency": 0,
+        "high-frequency": 0,
+        "wetness": 0,
         "enabled": false
     };
 
     this.voices = {};
-
-    // irHall = new reverbObject('https://raw.githubusercontent.com/cwilso/WebAudio/master/sounds/irHall.ogg', this);
 };
 
 Synth.prototype.setWaveForm = function(type, osc){
@@ -139,23 +140,10 @@ Synth.prototype.setPan = function(val, osc){
     this.pan[osc] = val;
 };
 
-// function loadAudio(url, t) {
-
-//     var request = new XMLHttpRequest();
-//     request.open('GET', url, true);
-//     request.responseType = 'arraybuffer';
-//     request.onload = function() {
-//         t.context.decodeAudioData(request.response, function(buffer) {
-//             t.buffer = buffer;
-//         });
-//     }
-//     request.send();
-// }
-
 function buildImpulse (context, convolver) {
       var rate = context.sampleRate
-        , length = rate * 2.0//* this.seconds
-        , decay = 2//this.decay
+        , length = rate * 1.0//* this.seconds
+        , decay = 0//this.decay
         , impulse = context.createBuffer(2, length, rate)
         , impulseL = impulse.getChannelData(0)
         , impulseR = impulse.getChannelData(1)
@@ -169,11 +157,6 @@ function buildImpulse (context, convolver) {
 
       convolver.buffer = impulse;
   }
-
-// function reverbObject(url,t) {
-//     this.source = url;
-//     loadAudio(url,t);
-// }
 
 //TODO: REFACTOR THIS MONSTROSITY
 Synth.prototype.play = function(freq){
@@ -210,11 +193,13 @@ Synth.prototype.play = function(freq){
         if (this.reverb.enabled) {
             voice.convolver = this.context.createConvolver();
             buildImpulse(this.context, voice.convolver);
-            console.log(voice.convolver)
-
-            voice.volumeNode[0].connect(voice.convolver);
-            voice.volumeNode[1].connect(voice.convolver);
-            voice.convolver.connect(this.context.destination);
+            
+            voice.reverbDelay = this.context.createDelay();
+            voice.reverbDelay.delayTime.value = 0;
+            
+            voice.convolver.connect(voice.reverbDelay);
+            voice.mixerNode.connect(voice.convolver);
+            voice.reverbDelay.connect(this.context.destination);
         }
         
         // Stereo Pan
