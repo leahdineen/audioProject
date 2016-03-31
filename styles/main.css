@@ -2,6 +2,10 @@ body {
   font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
+.title {
+    font-size: 44px;
+}
+
 .container {
     width: 90%;
 }
