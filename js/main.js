@@ -39,6 +39,20 @@ var init = function(){
         };
     }
 
+    var lfoRadios1 = document.forms["lfo1"].elements["wave"];
+    for(var i =0, max = lfoRadios1.length; i < max; i++){
+        lfoRadios1[i].onclick = function(){
+            synth.lfoOpts1.type = this.value;
+        }
+    }
+
+    var lfoRadios2 = document.forms["lfo2"].elements["wave"];
+    for(var i =0, max = lfoRadios2.length; i < max; i++){
+        lfoRadios2[i].onclick = function(){
+            synth.lfoOpts2.type = this.value;
+        }
+    }
+
     // Volume
     var vol1 = document.getElementById('vol1');
     vol1.noUiSlider.on('update', function(values) {

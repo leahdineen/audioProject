@@ -22,7 +22,6 @@ Synth.prototype.init = function(opts){
     this.imag[1] = new Float32Array(4096);
     this.imag[1][1] = 1.0; // initialize to sine
 
-
     this.isPlaying = false;
     this.volume = [0.5, 0.5];
     this.pan = [0, 0];
@@ -53,6 +52,7 @@ Synth.prototype.init = function(opts){
     // Default LFO1 options
     this.lfoOpts1 = {
         "param" : "volume",
+        "type" : "sine",
         "frequency":  2.0,
         "gain" : 0.25,
         "enabled": false
@@ -61,6 +61,7 @@ Synth.prototype.init = function(opts){
     // Default LFO1 options
     this.lfoOpts2 = {
         "param" : "volume",
+        "type" : "sine",
         "frequency":  2.0,
         "gain" : 0.25,
         "enabled": false

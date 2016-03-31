@@ -6,6 +6,7 @@ function LFO(opts, context){
     this.gain = opts.gain;
     this.frequency = opts.frequency;
     this.param = null;
+    this.type = opts.type;
     this.context = context;
     this.osc = null;
     this.oscGain = null;
@@ -25,6 +26,7 @@ LFO.prototype.start = function(){
 
     // Initialize LFO
     this.osc = this.context.createOscillator();
+    this.osc.type = this.type;
     this.osc.frequency.value = this.frequency;
     this.oscGain = this.context.createGain();
     this.oscGain.gain.value = this.gain;
