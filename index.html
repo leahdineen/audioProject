@@ -306,23 +306,27 @@
             <form name="reverb">
                 <p class="range-field">
                     <label for="reverb-initial-delay">Inital Delay</label>
-                    <input type="range" id="reverb-intial-delay" name="delay" min="0" max="5" step="0.5" value="0">
+                    <input type="range" id="reverb-initial-delay" name="delay" min="0" max="1" step="0.1" value="0">
                 </p>
                 <p class="range-field">
                     <label for="reverb-reverb-time">Reverb Time</label>
-                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                    <input type="range" id="reverb-reverb-time" name="reverb-time" min="0" max="1" step="0.1" value="0">
                 </p>
                 <p class="range-field">
-                    <label for="reverb-reverb-time">Low Frequnecy Filter</label>
-                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                    <label for="reverb-damping">Damping</label>
+                    <input type="range" id="reverb-damping" name="damping" min="0" max="1" step="0.1" value="0">
                 </p>
                 <p class="range-field">
-                    <label for="reverb-reverb-time">High Frequency Filter</label>
-                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                    <label for="reverb-low-frequency">Low Frequnecy Filter</label>
+                    <input type="range" id="reverb-low-frequency" name="low-frequency" min="0" max="1" step="0.1" value="0">
                 </p>
                 <p class="range-field">
-                    <label for="reverb-reverb-time">Wetness</label>
-                    <input type="range" id="reverb-reverb-time" name="gain" min="0" max="1" step="0.1" value="0.25">
+                    <label for="reverb-high-frequency">High Frequency Filter</label>
+                    <input type="range" id="reverb-high-frequency" name="high-frequency" min="0" max="1" step="0.1" value="0">
+                </p>
+                <p class="range-field">
+                    <label for="reverb-wetness">Wetness</label>
+                    <input type="range" id="reverb-wetness" name="wetness" min="-1" max="1" step="0.2" value="0">
                 </p>
                 <p>
                     <input type="checkbox" id="reverb-enabled" name="enabled" value="enabled"/>

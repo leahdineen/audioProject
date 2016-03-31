@@ -81,12 +81,16 @@ Synth.prototype.init = function(opts){
     };
 
     this.reverb = {
+        "delay": 0,
+        "reverbTime": 0,
+        "damping": 0,
+        "low-frequency": 0,
+        "high-frequency": 0,
+        "wetness": 0,
         "enabled": false
     };
 
     this.voices = {};
-
-    irHall = new reverbObject('https://raw.githubusercontent.com/cwilso/WebAudio/master/sounds/irHall.ogg', this);
 };
 
 Synth.prototype.setWaveForm = function(type, osc){
@@ -136,24 +140,24 @@ Synth.prototype.setPan = function(val, osc){
     this.pan[osc] = val;
 };
 
-function loadAudio(url, t) {
+function buildImpulse (context, convolver) {
+      var rate = context.sampleRate,
+        length = rate * 1.0,//* this.seconds
+        decay = 0,//this.decay
+        impulse = context.createBuffer(2, length, rate),
+        impulseL = impulse.getChannelData(0),
+        impulseR = impulse.getChannelData(1),
+        n, 
+        i;
 
-    var request = new XMLHttpRequest();
-    request.open('GET', url, true);
-    request.responseType = 'arraybuffer';
+      for (i = 0; i < length; i++) {
+        n = i;
+        impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
+        impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
+      }
 
-    request.onload = function() {
-        t.context.decodeAudioData(request.response, function(buffer) {
-            t.buffer = buffer;
-        });
-    };
-    request.send();
-}
-
-function reverbObject(url,t) {
-    this.source = url;
-    loadAudio(url,t);
-}
+      convolver.buffer = impulse;
+  }
 
 //TODO: REFACTOR THIS MONSTROSITY
 Synth.prototype.play = function(freq){
@@ -189,9 +193,14 @@ Synth.prototype.play = function(freq){
         // Reverb
         if (this.reverb.enabled) {
             voice.convolver = this.context.createConvolver();
-            voice.convolver.buffer = this.buffer;
+            buildImpulse(this.context, voice.convolver);
+            
+            voice.reverbDelay = this.context.createDelay();
+            voice.reverbDelay.delayTime.value = this.reverb.delay;
+            
+            voice.convolver.connect(voice.reverbDelay);
             voice.mixerNode.connect(voice.convolver);
-            voice.convolver.connect(this.context.destination);
+            voice.reverbDelay.connect(this.context.destination);
         }
         
         // Stereo Pan
@@ -274,7 +283,6 @@ Synth.prototype.play = function(freq){
                 case "frequency":
                     // Peak of attack is at main frequency
                     opts.max = freq;
-
                     // How many half steps we sustain to
                     var halfSteps = (opts.sustain - 0.5) * 10;
 
