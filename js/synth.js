@@ -144,8 +144,6 @@ Synth.prototype.setPan = function(val, osc){
 //     var request = new XMLHttpRequest();
 //     request.open('GET', url, true);
 //     request.responseType = 'arraybuffer';
-
-<<<<<<< HEAD
 //     request.onload = function() {
 //         t.context.decodeAudioData(request.response, function(buffer) {
 //             t.buffer = buffer;
@@ -157,7 +155,7 @@ Synth.prototype.setPan = function(val, osc){
 function buildImpulse (context, convolver) {
       var rate = context.sampleRate
         , length = rate * 2.0//* this.seconds
-        , decay = 0//this.decay
+        , decay = 2//this.decay
         , impulse = context.createBuffer(2, length, rate)
         , impulseL = impulse.getChannelData(0)
         , impulseR = impulse.getChannelData(1)
@@ -168,16 +166,6 @@ function buildImpulse (context, convolver) {
         impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
         impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
       }
-=======
-    request.onload = function() {
-        t.context.decodeAudioData(request.response, function(buffer) {
-            t.buffer = buffer;
-        });
-    };
-    request.send();
-}
->>>>>>> master
-
 
       convolver.buffer = impulse;
   }
@@ -221,19 +209,11 @@ Synth.prototype.play = function(freq){
         // Reverb
         if (this.reverb.enabled) {
             voice.convolver = this.context.createConvolver();
-<<<<<<< HEAD
             buildImpulse(this.context, voice.convolver);
+            console.log(voice.convolver)
 
-            voice.reverbDelay = this.context.createDelay(5.0);
-            console.log(voice.convolver.buffer)
-            voice.convolver.connect(voice.reverbDelay);
-            
-            
-            voice.volumeNode.connect(voice.convolver);
-=======
-            voice.convolver.buffer = this.buffer;
-            voice.mixerNode.connect(voice.convolver);
->>>>>>> master
+            voice.volumeNode[0].connect(voice.convolver);
+            voice.volumeNode[1].connect(voice.convolver);
             voice.convolver.connect(this.context.destination);
         }
         
