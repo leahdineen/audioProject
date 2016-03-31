@@ -39,6 +39,20 @@ var init = function(){
         };
     }
 
+    var lfoRadios1 = document.forms["lfo1"].elements["wave"];
+    for(var i =0, max = lfoRadios1.length; i < max; i++){
+        lfoRadios1[i].onclick = function(){
+            synth.lfoOpts1.type = this.value;
+        }
+    }
+
+    var lfoRadios2 = document.forms["lfo2"].elements["wave"];
+    for(var i =0, max = lfoRadios2.length; i < max; i++){
+        lfoRadios2[i].onclick = function(){
+            synth.lfoOpts2.type = this.value;
+        }
+    }
+
     // Volume
     var vol1 = document.getElementById('vol1');
     vol1.noUiSlider.on('update', function(values) {
@@ -182,10 +196,39 @@ var init = function(){
     });
 
     // Reverb
-    var reverb = document.forms["reverb"];
-    reverb.elements["enabled"].addEventListener("click", function(){
+    // var reverb = document.forms["reverb"];
+    // reverb.elements["enabled"].addEventListener("click", function(){
+    //     synth.reverb.enabled = !synth.reverb.enabled;
+    // });
+    var reverb_enabled = document.getElementById('reverb-enabled');
+    reverb_enabled.addEventListener("click", function(){
         synth.reverb.enabled = !synth.reverb.enabled;
     });
+    var rid = document.getElementById('reverb-initial-delay');
+    rid.noUiSlider.on('update', function(values) {
+        //want to use parseFloat(values[0]) to get value of slider
+    });
+    var rrd = document.getElementById('reverb-reverb-time');
+    rrd.noUiSlider.on('update', function(values) {
+
+    });
+    var damp = document.getElementById('reverb-damping');
+    damp.noUiSlider.on('update', function(values) {
+
+    });
+    var rlf = document.getElementById('reverb-low-frequency');
+    rlf.noUiSlider.on('update', function(values) {
+
+    });
+    var rhf = document.getElementById('reverb-high-frequency');
+    rhf.noUiSlider.on('update', function(values) {
+
+    });
+    var wet = document.getElementById('reverb-wetness');
+    wet.noUiSlider.on('update', function(values) {
+
+    });
+
 };
 
 document.addEventListener("DOMContentLoaded", function(event){
