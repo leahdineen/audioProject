@@ -2,13 +2,11 @@ body {
   font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
-.col {
+.component {
     border: 1px solid #9e9e9e;
     border-radius: 5px;
 }
 
-/* this makes the range verticle
-need more styling to make it look good*/
-/*input[type="range"] {
-   transform: rotate(270deg);
-}*/
+.vertSlider {
+    height: 100px;
+}

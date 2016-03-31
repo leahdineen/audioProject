@@ -1,19 +1,23 @@
 (function(){
 
 var synth = null;
+var phase1 = 0;
+var phase2 = 0;
 
 var init = function(){
     synth = new Synth();
 
     // Phase
-    var phase1 = document.forms["oscillator1"].elements["phase"];
-    phase1.addEventListener("change", function() {
-        synth.setPhase(this.value, 0);
+    var phase1 = document.getElementById('phase1');
+    phase1.noUiSlider.on('update', function(values) {
+        phase1 = parseFloat(values[0]);
+        synth.setPhase(phase1, 0);
     });
 
-    var phase2 = document.forms["oscillator2"].elements["phase"];
-    phase2.addEventListener("change", function() {
-        synth.setPhase(this.value, 1);
+    var phase2 = document.getElementById('phase2');
+    phase2.noUiSlider.on('update', function(values) {
+        phase2 = parseFloat(values[0]);
+        synth.setPhase(phase2, 1);
     });
 
     // Waveforms
@@ -22,7 +26,7 @@ var init = function(){
         radios1[i].onclick = function() {
             synth.setWaveForm(this.value, 0);
             // need to set phase every time we change wave form
-            synth.setPhase(phase1.value, 0);
+            synth.setPhase(phase1, 0);
         };
     }
 
@@ -31,48 +35,52 @@ var init = function(){
         radios2[i].onclick = function() {
             synth.setWaveForm(this.value, 1);
             // need to set phase every time we change wave form
-            synth.setPhase(phase2.value, 1);
+            synth.setPhase(phase2, 1);
         };
     }
 
     // Volume
-    var volume1 = document.forms["oscillator1"].elements["volume"];
-    volume1.addEventListener("change", function() {
-        synth.setVolume(parseFloat(this.value), 0);
+    var vol1 = document.getElementById('vol1');
+    vol1.noUiSlider.on('update', function(values) {
+        synth.setVolume(parseFloat(values[0]), 0);
     });
 
-    var volume2 = document.forms["oscillator2"].elements["volume"];
-    volume2.addEventListener("change", function() {
-        synth.setVolume(parseFloat(this.value), 1);
+    var vol2 = document.getElementById('vol2');
+    vol2.noUiSlider.on('update', function(values) {
+        synth.setVolume(parseFloat(values[0]), 1);
     });
     
     // Panning
-    var pan1 = document.forms["oscillator1"].elements["pan"];
-    pan1.addEventListener("change", function() {
-        synth.setPan(parseFloat(this.value), 0);
+    var pan1 = document.getElementById('pan1');
+    pan1.noUiSlider.on('update', function(values) {
+        synth.setPan(parseFloat(values[0]), 0);
     });
 
-    var pan2 = document.forms["oscillator2"].elements["pan"];
-    pan2.addEventListener("change", function() {
-        synth.setPan(parseFloat(this.value), 1);
+    var pan2 = document.getElementById('pan2');
+    pan2.noUiSlider.on('update', function(values) {
+        synth.setPan(parseFloat(values[0]), 1);
     });
 
     // ADSR1 
     var envelope = document.forms["adsr1"];
-    envelope.elements["param"].addEventListener("change", function(){
-        synth.envelopeOpts1.param = this.value;
+    envelope.elements["param"].addEventListener("change", function(values){
+        synth.envelopeOpts1.param = parseFloat(values[0]);
     });
-    envelope.elements["attack"].addEventListener("change", function(){
-        synth.envelopeOpts1.attack = parseFloat(this.value);
+    var attack1 = document.getElementById('attack1');
+    attack1.noUiSlider.on('update', function(values) {
+        synth.envelopeOpts1.attack = parseFloat(values[0]);
     });
-    envelope.elements["decay"].addEventListener("change", function(){
-        synth.envelopeOpts1.decay = parseFloat(this.value);
+    var decay1 = document.getElementById('decay1');
+    decay1.noUiSlider.on('update', function(values) {
+        synth.envelopeOpts1.decay = parseFloat(values[0]);
     });
-    envelope.elements["sustain"].addEventListener("change", function(){
-        synth.envelopeOpts1.sustain = parseFloat(this.value);
+    var sustain1 = document.getElementById('sustain1');
+    sustain1.noUiSlider.on('update', function(values) {
+        synth.envelopeOpts1.sustain = parseFloat(values[0]);
     });
-    envelope.elements["release"].addEventListener("change", function(){
-        synth.envelopeOpts1.release = parseFloat(this.value);
+    var release1 = document.getElementById('release1');
+    release1.noUiSlider.on('update', function(values) {
+        synth.envelopeOpts1.release = parseFloat(values[0]);
     });
     envelope.elements["enabled"].addEventListener("click", function(){
         synth.envelopeOpts1.enabled = !synth.envelopeOpts1.enabled;
@@ -83,17 +91,21 @@ var init = function(){
     envelope2.elements["param"].addEventListener("change", function(){
         synth.envelopeOpts2.param = this.value;
     });
-    envelope2.elements["attack"].addEventListener("change", function(){
-        synth.envelopeOpts2.attack = parseFloat(this.value);
+    var attack2 = document.getElementById('attack2');
+    attack2.noUiSlider.on('update', function(values) {
+        synth.envelopeOpts2.attack = parseFloat(values[0]);
     });
-    envelope2.elements["decay"].addEventListener("change", function(){
-        synth.envelopeOpts2.decay = parseFloat(this.value);
+    var decay2 = document.getElementById('decay2');
+    decay2.noUiSlider.on('update', function(values) {
+        synth.envelopeOpts2.decay = parseFloat(values[0]);
     });
-    envelope2.elements["sustain"].addEventListener("change", function(){
-        synth.envelopeOpts2.sustain = parseFloat(this.value);
+    var sustain2 = document.getElementById('sustain2');
+    sustain2.noUiSlider.on('update', function(values) {
+        synth.envelopeOpts2.sustain = parseFloat(values[0]);
     });
-    envelope2.elements["release"].addEventListener("change", function(){
-        synth.envelopeOpts2.release = parseFloat(this.value);
+    var release2 = document.getElementById('release2');
+    release2.noUiSlider.on('update', function(values) {
+        synth.envelopeOpts2.release = parseFloat(values[0]);
     });
     envelope2.elements["enabled"].addEventListener("click", function(){
         synth.envelopeOpts2.enabled = !synth.envelopeOpts2.enabled;
@@ -104,11 +116,13 @@ var init = function(){
     lfo1.elements["param"].addEventListener("change", function(){
         synth.lfoOpts1.param = this.value;
     });
-    lfo1.elements["rate"].addEventListener("change", function(){
-        synth.lfoOpts1.frequency = this.value;
+    var lfo1_rate = document.getElementById('lfo1-rate');
+    lfo1_rate.noUiSlider.on('update', function(values) {
+        synth.lfoOpts1.frequency = parseFloat(values[0]);
     });
-    lfo1.elements["gain"].addEventListener("change", function(){
-        synth.lfoOpts1.gain = this.value;
+    var lfo1_gain = document.getElementById('lfo1-gain');
+    lfo1_gain.noUiSlider.on('update', function(values) {
+        synth.lfoOpts1.gain = parseFloat(values[0]);
     });
     lfo1.elements["enabled"].addEventListener("click", function(){
         synth.lfoOpts1.enabled = !synth.lfoOpts1.enabled;
@@ -119,11 +133,13 @@ var init = function(){
     lfo2.elements["param"].addEventListener("change", function(){
         synth.lfoOpts2.param = this.value;
     });
-    lfo2.elements["rate"].addEventListener("change", function(){
-        synth.lfoOpts2.frequency = this.value;
+    var lfo2_rate = document.getElementById('lfo2-rate');
+    lfo2_rate.noUiSlider.on('update', function(values) {
+        synth.lfoOpts2.frequency = parseFloat(values[0]);
     });
-    lfo2.elements["gain"].addEventListener("change", function(){
-        synth.lfoOpts2.gain = this.value;
+    var lfo2_gain = document.getElementById('lfo2-gain');
+    lfo2_gain.noUiSlider.on('update', function(values) {
+        synth.lfoOpts2.gain = parseFloat(values[0]);
     });
     lfo2.elements["enabled"].addEventListener("click", function(){
         synth.lfoOpts2.enabled = !synth.lfoOpts2.enabled;
@@ -134,10 +150,11 @@ var init = function(){
     filter1.elements["type"].addEventListener("change", function(){
         synth.filterOpts1.type = this.value;
     });
-    filter1.elements["frequency"].addEventListener("change", function(){
+    var filter1_frequency = document.getElementById('filter1-frequency');
+    filter1_frequency.noUiSlider.on('update', function(values) {
         // Frequency isn't represented very well on a linear scale
         // like range sliders have, so we need to change the scaling.
-        synth.filterOpts1.frequency = logScale(this.value, 0, 50, 10, 20000);
+        synth.filterOpts1.frequency = logScale(parseFloat(values[0]), 0, 50, 10, 20000);
     });
     filter1.elements["enabled"].addEventListener("change", function(){
         synth.filterOpts1.enabled = !synth.filterOpts1.enabled;
@@ -148,10 +165,11 @@ var init = function(){
     filter2.elements["type"].addEventListener("change", function(){
         synth.filterOpts2.type = this.value;
     });
-    filter2.elements["frequency"].addEventListener("change", function(){
+    var filter2_frequency = document.getElementById('filter2-frequency');
+    filter2_frequency.noUiSlider.on('update', function(values) {
         // Frequency isn't represented very well on a linear scale
         // like range sliders have, so we need to change the scaling.
-        synth.filterOpts2.frequency = logScale(this.value, 0, 50, 10, 20000);
+        synth.filterOpts2.frequency = logScale(parseFloat(values[0]), 0, 50, 10, 20000);
     });
     filter2.elements["enabled"].addEventListener("change", function(){
         synth.filterOpts2.enabled = !synth.filterOpts2.enabled;
