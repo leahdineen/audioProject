@@ -42,6 +42,10 @@ noUiSlider.create(pan1, {
     }
 });
 
+var children = pan1.getElementsByClassName('noUi-value');
+children[0].innerHTML = 'L';
+children[1].innerHTML = 'R';
+
 // Oscillator 2
 var vol2 = document.getElementById('vol2');
 noUiSlider.create(vol2, {
@@ -85,6 +89,10 @@ noUiSlider.create(pan2, {
         density: 10
     }
 });
+
+var children = pan2.getElementsByClassName('noUi-value');
+children[0].innerHTML = 'L';
+children[1].innerHTML = 'R';
 
 // ADSR 1
 var attack1 = document.getElementById('attack1');
