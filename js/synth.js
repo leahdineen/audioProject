@@ -83,11 +83,11 @@ Synth.prototype.init = function(opts){
 
     this.reverb = {
         "delay": 0,
-        "reverbTime": 0,
+        "duration": 0,
         "damping": 0,
-        "low-frequency": 0,
-        "high-frequency": 0,
-        "wetness": 10,
+        "lowFrequency": 0,
+        "highFrequency": 0,
+        "wetness": 1,
         "enabled": false
     };
 
@@ -141,10 +141,11 @@ Synth.prototype.setPan = function(val, osc){
     this.pan[osc] = val;
 };
 
-function buildImpulse (context, convolver) {
+function buildImpulse (context, convolver, reverb) {
+    console.log(reverb)
       var rate = context.sampleRate,
-        length = rate * 1.0,//* this.seconds
-        decay = 0,//this.decay
+        length = rate * reverb.duration,
+        decay = reverb.damping,//this.decay
         impulse = context.createBuffer(2, length, rate),
         impulseL = impulse.getChannelData(0),
         impulseR = impulse.getChannelData(1),
@@ -194,23 +195,21 @@ Synth.prototype.play = function(freq){
         // Reverb
         if (this.reverb.enabled) {
             voice.convolver = this.context.createConvolver();
-            buildImpulse(this.context, voice.convolver);
+            buildImpulse(this.context, voice.convolver, this.reverb);
             
             voice.reverbDelay = this.context.createDelay();
             voice.reverbDelay.delayTime.value = this.reverb.delay;
 
             voice.wetnessVolume = this.context.createGain();
-            voice.wetnessVolume.gain.setValueAtTime(1, this.context.currentTime);
+            voice.wetnessVolume.gain.setValueAtTime(this.reverb.wetness, this.context.currentTime);
 
             voice.reverbLow = this.context.createBiquadFilter();
             voice.reverbLow.type = 'lowpass';
-            //CHANGE VALUES HERE
-            voice.reverbLow.frequency.value = 0;
+            voice.reverbLow.frequency.value = this.reverb.lowFrequency;
 
             voice.reverbHigh = this.context.createBiquadFilter();
             voice.reverbHigh.type = 'highpass';
-            //CHANGE VALUES HERE
-            voice.reverbHigh.frequency.value = 0;
+            voice.reverbHigh.frequency.value = this.reverb.highFrequency;
             
             voice.reverbLow.connect(voice.reverbHigh);
             voice.reverbHigh.connect(voice.mixerNode);
