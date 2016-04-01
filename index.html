@@ -17,16 +17,16 @@
 <body>
 <div id="content" class="container">
     <div class="row">
-        <div class="col l12 title center-align">
+        <div class="col l12 title center-align purple-text text-darken-3">
             Synth it up
         </div>
     </div>
     <div class="row">
         <div class="col l4 component">
-            Oscillator1
+            <span class="component_title purple-text text-darken-3">Oscillator 1</span>
             <form name="oscillator1">
                 <div class="row">
-                    <div class="col l3">
+                    <div class="col l4">
                         <p>
                             <input id="sine1" type="radio" name="wave" value="sine" checked>
                             <label for="sine1">Sine</label>
@@ -44,19 +44,23 @@
                             <label for="triangle1">Triangle</label>
                         </p>
                     </div>
-                    <div class="col l3">
-                        <div class="label">Vol</div>
-                        <div id="vol1" class="vertSlider"></div>
-                    </div>
+                    <div class="col l8">
+                        <div class="row">
+                            <div class="col l4">
+                                <div class="label">Vol</div>
+                                <div id="vol1" class="vertSlider"></div>
+                            </div>
 
-                    <div class="col l3">
-                        <div class="label">Phase</div>
-                        <div id="phase1" class="vertSlider"></div>
-                    </div>
+                            <div class="col l4">
+                                <div class="label">Phase</div>
+                                <div id="phase1" class="vertSlider"></div>
+                            </div>
 
-                    <div class="col l3">
-                        <div class="label">Pan</div>
-                        <div id="pan1" class="vertSlider"></div>
+                            <div class="col l4">
+                                <div class="label">Pan</div>
+                                <div id="pan1" class="vertSlider"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -64,7 +68,7 @@
         <div class="col l4 component">
             <div class="row">
                 <div class="col l6">
-                    ADSR Envelope 1
+                    <span class="component_title purple-text text-darken-3">ADSR Envelope 1</span>
                 </div>
                 <div class="col l6">
                     <div class="switch right">
@@ -78,14 +82,14 @@
                 </div>
             </div>
             <form name="adsr1">
-                <p class="input-field">
-                    <select class="browser-default" name="param">
+                <div class="input-field">
+                    <select name="param">
                         <option selected disabled value="title">Choose Parameter</option>
                         <option value ="frequency">Frequency</option>
                         <option value ="volume">Volume</option>
                         <option value ="pan">Pan</option>
                     </select>
-                </p>
+                </div>
                 <div class="row">
                     <div class="col l3">
                         <div class="label">A</div>
@@ -107,10 +111,10 @@
             </form>
         </div>
         <div class="col l4 component">
-            Oscillator2
+            <span class="component_title purple-text text-darken-3">Oscillator 2</span>
             <form name="oscillator2">
                 <div class="row">
-                    <div class="col l3">
+                    <div class="col l4">
                         <p>
                             <input id="sine2" type="radio" name="wave" value="sine" checked>
                             <label for="sine2">Sine</label>
@@ -128,30 +132,33 @@
                             <label for="triangle2">Triangle</label>
                         </p>
                     </div>
-                    <div class="col l3">
-                        <div class="label">Vol</div>
-                        <div id="vol2" class="vertSlider"></div>
-                    </div>
+                    <div class="col l8">
+                        <div class="row">
+                            <div class="col l4">
+                                <div class="label">Vol</div>
+                                <div id="vol2" class="vertSlider"></div>
+                            </div>
 
-                    <div class="col l3">
-                        <div class="label">Phase</div>
-                        <div id="phase2" class="vertSlider"></div>
-                    </div>
+                            <div class="col l4">
+                                <div class="label">Phase</div>
+                                <div id="phase2" class="vertSlider"></div>
+                            </div>
 
-                    <div class="col l3">
-                        <div class="label">Pan</div>
-                        <div id="pan2" class="vertSlider"></div>
+                            <div class="col l4">
+                                <div class="label">Pan</div>
+                                <div id="pan2" class="vertSlider"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    
     <div class="row">
         <div class="col l4 component">
             <div class="row">
                 <div class="col l6">
-                    LFO 1
+                    <span class="component_title purple-text text-darken-3">LFO 1</span>
                 </div>
                 <div class="col l6">
                     <div class="switch right">
@@ -166,7 +173,7 @@
             </div>
             <form name="lfo1">
                 <p class="input-field">
-                    <select class="browser-default" name="param">
+                    <select name="param">
                         <option selected disabled value="title">Choose Parameter</option>
                         <option value ="frequency">Frequency</option>
                         <option value ="volume">Volume</option>
@@ -193,11 +200,11 @@
                         </p>
                     </div>
                     <div class="col s4">
-                        <label for="lfo1-rate">Rate</label>
+                        <div class="label">Rate</div>
                         <div id="lfo1-rate" class="vertSlider"></div>
                     </div>
                     <div class="col s4">
-                        <label for="lfo1-gain">Gain</label>
+                        <div class="label">Gain</div>
                         <div id="lfo1-gain" class="vertSlider"></div>
                     </div>
                 </div>
@@ -206,7 +213,7 @@
         <div class="col l4 component">
             <div class="row">
                 <div class="col l6">
-                    ADSR Envelope 2
+                    <span class="component_title purple-text text-darken-3">ADSR Envelope 2</span>
                 </div>
                 <div class="col l6">
                     <div class="switch right">
@@ -221,7 +228,7 @@
             </div>
             <form name="adsr2">
                 <p class="input-field">
-                    <select class="browser-default" name="param">
+                    <select name="param">
                         <option selected disabled value="title">Choose Parameter</option>
                         <option value ="frequency">Frequency</option>
                         <option value ="volume">Volume</option>
@@ -251,7 +258,7 @@
         <div class="col l4 component">
             <div class="row">
                 <div class="col l6">
-                    LFO 2
+                    <span class="component_title purple-text text-darken-3">LFO 2</span>
                 </div>
                 <div class="col l6">
                     <div class="switch right">
@@ -266,7 +273,7 @@
             </div>
             <form name="lfo2">
                 <p class="input-field">
-                    <select class="browser-default" name="param">
+                    <select name="param">
                         <option selected disabled value="title">Choose Parameter</option>
                         <option value ="frequency">Frequency</option>
                         <option value ="volume">Volume</option>
@@ -293,11 +300,11 @@
                         </p>
                     </div>
                     <div class="col s4">
-                        <label for="lfo2-rate">Rate</label>
+                        <div class="label">Rate</div>
                         <div id="lfo2-rate" class="vertSlider"></div>
                     </div>
                     <div class="col s4">
-                        <label for="lfo2-gain">Gain</label>
+                        <div class="label">Gain</div>
                         <div id="lfo2-gain" class="vertSlider"></div>
                     </div>
                 </div>
@@ -308,7 +315,7 @@
         <div class="col l3 component">
             <div class="row">
                 <div class="col l6">
-                    Filter 1
+                    <span class="component_title purple-text text-darken-3">Filter 1</span>
                 </div>
                 <div class="col l6">
                     <div class="switch right">
@@ -323,7 +330,7 @@
             </div>
             <form name="filter1">
                 <p class="input-field">
-                    <select class="browser-default" name="type">
+                    <select name="type">
                         <option selected disabled value="title">Choose Type</option>
                         <option value ="lowpass">Lowpass</option>
                         <option value ="highpass">Highpass</option>
@@ -340,7 +347,7 @@
         <div class="col l6 component">
             <div class="row">
                 <div class="col l6">
-                    Reverb
+                    <span class="component_title purple-text text-darken-3">Reverb</span>
                 </div>
                 <div class="col l6">
                     <div class="switch right">
@@ -385,7 +392,7 @@
         <div class="col l3 component">
             <div class="row">
                 <div class="col l6">
-                    Filter 2
+                    <span class="component_title purple-text text-darken-3">Filter 2</span>
                 </div>
                 <div class="col l6">
                     <div class="switch right">
@@ -400,7 +407,7 @@
             </div>
             <form name="filter2">
                 <p class="input-field">
-                    <select class="browser-default" name="type">
+                    <select name="type">
                         <option selected disabled value="title">Choose Type</option>
                         <option value ="lowpass">Lowpass</option>
                         <option value ="highpass">Highpass</option>
