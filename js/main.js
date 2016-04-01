@@ -43,14 +43,14 @@ var init = function(){
     for(var i =0, max = lfoRadios1.length; i < max; i++){
         lfoRadios1[i].onclick = function(){
             synth.lfoOpts1.type = this.value;
-        }
+        };
     }
 
     var lfoRadios2 = document.forms["lfo2"].elements["wave"];
     for(var i =0, max = lfoRadios2.length; i < max; i++){
         lfoRadios2[i].onclick = function(){
             synth.lfoOpts2.type = this.value;
-        }
+        };
     }
 
     // Volume
@@ -196,10 +196,6 @@ var init = function(){
     });
 
     // Reverb
-    // var reverb = document.forms["reverb"];
-    // reverb.elements["enabled"].addEventListener("click", function(){
-    //     synth.reverb.enabled = !synth.reverb.enabled;
-    // });
     var reverb_enabled = document.getElementById('reverb-enabled');
     reverb_enabled.addEventListener("click", function(){
         synth.reverb.enabled = !synth.reverb.enabled;
@@ -228,6 +224,12 @@ var init = function(){
     wet.noUiSlider.on('update', function(values) {
 
     });
+
+    // set heights of components
+    var comps = document.getElementsByClassName('component');
+    for(var i = 0, max = comps.length; i < max; i++){
+        comps[i].style.height = comps[i].parentElement.clientHeight + "px";
+    }
 
 };
 
