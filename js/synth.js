@@ -87,7 +87,7 @@ Synth.prototype.init = function(opts){
         "damping": 0,
         "low-frequency": 0,
         "high-frequency": 0,
-        "wetness": 0,
+        "wetness": 10,
         "enabled": false
     };
 
@@ -198,10 +198,29 @@ Synth.prototype.play = function(freq){
             
             voice.reverbDelay = this.context.createDelay();
             voice.reverbDelay.delayTime.value = this.reverb.delay;
+
+            voice.wetnessVolume = this.context.createGain();
+            voice.wetnessVolume.gain.setValueAtTime(1, this.context.currentTime);
+
+            voice.reverbLow = this.context.createBiquadFilter();
+            voice.reverbLow.type = 'lowpass';
+            //CHANGE VALUES HERE
+            voice.reverbLow.frequency.value = 0;
+
+            voice.reverbHigh = this.context.createBiquadFilter();
+            voice.reverbHigh.type = 'highpass';
+            //CHANGE VALUES HERE
+            voice.reverbHigh.frequency.value = 0;
+            
+            voice.reverbLow.connect(voice.reverbHigh);
+            voice.reverbHigh.connect(voice.mixerNode);
+            
+            voice.mixerNode.connect(voice.convolver);
             
             voice.convolver.connect(voice.reverbDelay);
-            voice.mixerNode.connect(voice.convolver);
-            voice.reverbDelay.connect(this.context.destination);
+            voice.reverbDelay.connect(voice.wetnessVolume);
+            
+            voice.wetnessVolume.connect(this.context.destination);
         }
         
         // Stereo Pan
@@ -363,6 +382,7 @@ Synth.prototype.play = function(freq){
             voice.filter[0] = this.context.createBiquadFilter();
             voice.filter[0].type = this.filterOpts1.type;
             voice.filter[0].frequency.value = this.filterOpts1.frequency;
+            
             voice.panNode[0].disconnect();
             voice.panNode[0].connect(voice.filter[0]);
             voice.filter[0].connect(voice.mixerNode);
