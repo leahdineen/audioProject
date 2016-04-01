@@ -225,9 +225,6 @@ var init = function(){
 
     });
 
-    // init drop downs
-    $('select').material_select();
-
     // set heights of components
     var comps = document.getElementsByClassName('component');
     for(var i = 0, max = comps.length; i < max; i++){
