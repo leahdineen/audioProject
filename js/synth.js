@@ -91,6 +91,13 @@ Synth.prototype.init = function(opts){
         "enabled": false
     };
 
+    this.delay = {
+        "delayTime": 0,
+        "feedback": 0,
+        "cutoffFreq": 0,
+        "enabled": false
+    };
+
     this.voices = {};
 };
 
@@ -194,23 +201,33 @@ Synth.prototype.play = function(freq){
 
         // Reverb
         if (this.reverb.enabled) {
+            //convolver and buffer creation
             voice.convolver = this.context.createConvolver();
             buildImpulse(this.context, voice.convolver, this.reverb);
             
+            //amount of time between original sound and the reverb
+            //default is no delay = 0
             voice.reverbDelay = this.context.createDelay();
             voice.reverbDelay.delayTime.value = this.reverb.delay;
 
+            //loudness of the reverb (between no sound = 0 and max vol = 1)
+            //default = 0.5
             voice.wetnessVolume = this.context.createGain();
             voice.wetnessVolume.gain.setValueAtTime(this.reverb.wetness, this.context.currentTime);
 
+            //lowpass filter for reverb only
+            //default = 0
             voice.reverbLow = this.context.createBiquadFilter();
             voice.reverbLow.type = 'lowpass';
             voice.reverbLow.frequency.value = this.reverb.lowFrequency;
 
+            //highpass filter for reverb only
+            //default = 0
             voice.reverbHigh = this.context.createBiquadFilter();
             voice.reverbHigh.type = 'highpass';
             voice.reverbHigh.frequency.value = this.reverb.highFrequency;
             
+            //connecting it all together
             voice.reverbLow.connect(voice.reverbHigh);
             voice.reverbHigh.connect(voice.mixerNode);
             
