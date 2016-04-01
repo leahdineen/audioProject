@@ -202,7 +202,6 @@ var init = function(){
     });
     var rid = document.getElementById('reverb-initial-delay');
     rid.noUiSlider.on('update', function(values) {
-        //want to use parseFloat(values[0]) to get value of slider
         synth.reverb.delay = parseFloat(values[0]);
     });
     var rrd = document.getElementById('reverb-duration');
@@ -224,6 +223,24 @@ var init = function(){
     var wet = document.getElementById('reverb-wetness');
     wet.noUiSlider.on('update', function(values) {
         synth.reverb.wetness = parseFloat(values[0]);
+    });
+
+    // Delay
+    var delay_enabled = document.getElementById('delay-enabled');
+    delay_enabled.addEventListener("click", function(){
+        synth.delay.enabled = !synth.delay.enabled;
+    });
+    var delayTime = document.getElementById('delay-time');
+    rid.noUiSlider.on('update', function(values) {
+        synth.delay.delayTime = parseFloat(values[0]);
+    });
+    var delayFeedback = document.getElementById('delay-feedback');
+    rrd.noUiSlider.on('update', function(values) {
+        synth.delay.feedback = parseFloat(values[0]);
+    });
+    var delayCutoff = document.getElementById('delay-cutoff');
+    damp.noUiSlider.on('update', function(values) {
+        synth.delay.cutoffFreq = logScale(parseFloat(values[0]), 0, 50, 10, 20000);
     });
 
     // set heights of components

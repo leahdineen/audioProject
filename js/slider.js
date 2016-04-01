@@ -418,3 +418,54 @@ noUiSlider.create(wet, {
         density: 10
     }
 });
+
+// Delay
+var delayTime = document.getElementById('delay-time');
+noUiSlider.create(delayTime, {
+    start: 0.5,
+    orientation: 'vertical',
+    direction: 'rtl',
+    range: {
+        'min': 0,
+        'max': 1
+    },
+    pips: {
+        mode: 'range',
+        density: 10
+    }
+});
+
+var delayFeedback = document.getElementById('delay-feedback');
+noUiSlider.create(delayFeedback, {
+    start: 0.8,
+    orientation: 'vertical',
+    direction: 'rtl',
+    range: {
+        'min': 0,
+        'max': 0.95
+    },
+    pips: {
+        mode: 'range',
+        density: 10
+    }
+});
+
+var delayCutoff = document.getElementById('delay-cutoff');
+noUiSlider.create(delayCutoff, {
+    start: 10,
+    orientation: 'vertical',
+    direction: 'rtl',
+    range: {
+        'min': 0,
+        'max': 50
+    },
+    pips: {
+        mode: 'range',
+        density: 10
+    }
+});
+
+var children = delayCutoff.getElementsByClassName('noUi-value');
+children[0].innerHTML = '0';
+children[1].innerHTML = '20';
+
