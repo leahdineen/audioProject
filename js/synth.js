@@ -200,14 +200,15 @@ Synth.prototype.play = function(freq){
             voice.reverbDelay.delayTime.value = this.reverb.delay;
 
             voice.wetnessVolume = this.context.createGain();
-            voice.wetnessVolume.gain.value = 0;
+            voice.wetnessVolume.gain.setValueAtTime(0, this.context.currentTime);
 
             console.log(voice.wetnessVolume)
             
-            voice.convolver.connect(voice.reverbDelay);
-            voice.convolver.connect(voice.wetnessVolume);
             voice.mixerNode.connect(voice.convolver);
-            voice.reverbDelay.connect(this.context.destination);
+            
+            voice.convolver.connect(voice.reverbDelay);
+            voice.reverbDelay.connect(voice.wetnessVolume);
+            
             voice.wetnessVolume.connect(this.context.destination);
         }
         
