@@ -200,9 +200,20 @@ Synth.prototype.play = function(freq){
             voice.reverbDelay.delayTime.value = this.reverb.delay;
 
             voice.wetnessVolume = this.context.createGain();
-            voice.wetnessVolume.gain.setValueAtTime(0, this.context.currentTime);
+            voice.wetnessVolume.gain.setValueAtTime(1, this.context.currentTime);
 
-            console.log(voice.wetnessVolume)
+            voice.reverbLow = this.context.createBiquadFilter();
+            voice.reverbLow.type = 'lowpass';
+            //CHANGE VALUES HERE
+            voice.reverbLow.frequency.value = 0;
+
+            voice.reverbHigh = this.context.createBiquadFilter();
+            voice.reverbHigh.type = 'highpass';
+            //CHANGE VALUES HERE
+            voice.reverbHigh.frequency.value = 0;
+            
+            voice.reverbLow.connect(voice.reverbHigh);
+            voice.reverbHigh.connect(voice.mixerNode);
             
             voice.mixerNode.connect(voice.convolver);
             
@@ -371,6 +382,7 @@ Synth.prototype.play = function(freq){
             voice.filter[0] = this.context.createBiquadFilter();
             voice.filter[0].type = this.filterOpts1.type;
             voice.filter[0].frequency.value = this.filterOpts1.frequency;
+            
             voice.panNode[0].disconnect();
             voice.panNode[0].connect(voice.filter[0]);
             voice.filter[0].connect(voice.mixerNode);
