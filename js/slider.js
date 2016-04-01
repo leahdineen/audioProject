@@ -328,7 +328,7 @@ noUiSlider.create(rid, {
     direction: 'rtl',
     range: {
         'min': 0,
-        'max': 1
+        'max': 2
     },
     pips: {
         mode: 'range',
@@ -336,14 +336,14 @@ noUiSlider.create(rid, {
     }
 });
 
-var rrt = document.getElementById('reverb-reverb-time');
+var rrt = document.getElementById('reverb-duration');
 noUiSlider.create(rrt, {
-    start: 0,
+    start: 1,
     orientation: 'vertical',
     direction: 'rtl',
     range: {
-        'min': 0,
-        'max': 1
+        'min': 0.1,
+        'max': 5
     },
     pips: {
         mode: 'range',
@@ -358,7 +358,7 @@ noUiSlider.create(damp, {
     direction: 'rtl',
     range: {
         'min': 0,
-        'max': 1
+        'max': 5
     },
     pips: {
         mode: 'range',
@@ -373,13 +373,17 @@ noUiSlider.create(rlf, {
     direction: 'rtl',
     range: {
         'min': 0,
-        'max': 1
+        'max': 50
     },
     pips: {
         mode: 'range',
         density: 10
     }
 });
+
+var children = rlf.getElementsByClassName('noUi-value');
+children[0].innerHTML = '0';
+children[1].innerHTML = '20';
 
 var rhf = document.getElementById('reverb-high-frequency');
 noUiSlider.create(rhf, {
@@ -388,7 +392,7 @@ noUiSlider.create(rhf, {
     direction: 'rtl',
     range: {
         'min': 0,
-        'max': 1
+        'max': 50
     },
     pips: {
         mode: 'range',
@@ -396,13 +400,17 @@ noUiSlider.create(rhf, {
     }
 });
 
+var children = rhf.getElementsByClassName('noUi-value');
+children[0].innerHTML = '0';
+children[1].innerHTML = '20';
+
 var wet = document.getElementById('reverb-wetness');
 noUiSlider.create(wet, {
-    start: 0,
+    start: 0.5,
     orientation: 'vertical',
     direction: 'rtl',
     range: {
-        'min': -1,
+        'min': 0,
         'max': 1
     },
     pips: {

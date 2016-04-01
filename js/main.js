@@ -203,26 +203,27 @@ var init = function(){
     var rid = document.getElementById('reverb-initial-delay');
     rid.noUiSlider.on('update', function(values) {
         //want to use parseFloat(values[0]) to get value of slider
+        synth.reverb.delay = parseFloat(values[0]);
     });
-    var rrd = document.getElementById('reverb-reverb-time');
+    var rrd = document.getElementById('reverb-duration');
     rrd.noUiSlider.on('update', function(values) {
-
+        synth.reverb.duration = parseFloat(values[0]);
     });
     var damp = document.getElementById('reverb-damping');
     damp.noUiSlider.on('update', function(values) {
-
+        synth.reverb.damping = parseFloat(values[0]);
     });
     var rlf = document.getElementById('reverb-low-frequency');
     rlf.noUiSlider.on('update', function(values) {
-
+        synth.reverb.lowFrequency = logScale(parseFloat(values[0]), 0, 50, 10, 20000);
     });
     var rhf = document.getElementById('reverb-high-frequency');
     rhf.noUiSlider.on('update', function(values) {
-
+        synth.reverb.highFrequency = logScale(parseFloat(values[0]), 0, 50, 10, 20000);
     });
     var wet = document.getElementById('reverb-wetness');
     wet.noUiSlider.on('update', function(values) {
-
+        synth.reverb.wetness = parseFloat(values[0]);
     });
 
     // set heights of components
