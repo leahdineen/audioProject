@@ -11,6 +11,14 @@ Synth.prototype.init = function(opts){
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     this.context = new AudioContext();
 
+    this.analyser = this.context.createAnalyser();
+    this.analyser.fftSize = 1024;
+    this.analyserData = {};
+    this.analyserData.bufferLength = this.analyser.frequencyBinCount;
+    this.analyserData.dataArray = new Uint8Array(this.analyserData.bufferLength);
+    this.canvas = document.getElementById("visualizer");
+    this.canvasCtx = this.canvas.getContext("2d");
+
     this.real = [];
     this.imag = [];
     // oscillator 1
@@ -149,7 +157,6 @@ Synth.prototype.setPan = function(val, osc){
 };
 
 function buildImpulse (context, convolver, reverb) {
-    console.log(reverb)
       var rate = context.sampleRate,
         length = rate * reverb.duration,
         decay = reverb.damping,//this.decay
@@ -167,6 +174,28 @@ function buildImpulse (context, convolver, reverb) {
 
       convolver.buffer = impulse;
   }
+
+function draw(w,h, analyser, analyserData, canvasCtx) {
+    drawVisual = requestAnimationFrame(function(){ return draw(w,h, analyser, analyserData, canvasCtx); });
+
+    analyser.getByteFrequencyData(analyserData.dataArray);
+
+    canvasCtx.fillStyle = 'rgb(255, 255, 255)';
+    canvasCtx.fillRect(0, 0, w, h);
+
+    var barWidth = (w / analyserData.bufferLength) * 2.5;
+    var barHeight;
+    var x = 0;
+
+    for(var i = 0; i < analyserData.bufferLength; i++) {
+        barHeight = analyserData.dataArray[i]/2;
+
+        canvasCtx.fillStyle = 'rgb(' + (barHeight+200) + ',50,50)';
+        canvasCtx.fillRect(x,h-barHeight/2,barWidth,barHeight);
+
+        x += barWidth + 1;
+    }
+}
 
 //TODO: REFACTOR THIS MONSTROSITY
 Synth.prototype.play = function(freq){
@@ -254,8 +283,6 @@ Synth.prototype.play = function(freq){
             //frequency lowpass filter
             voice.delayCutoff = this.context.createBiquadFilter();
             voice.delayCutoff.frequency.value = this.delay.cutoffFreq;
-
-            console.log(this.delay)
 
             //connecting it all together
             voice.delay.connect(voice.delayFeedback);
@@ -448,7 +475,13 @@ Synth.prototype.play = function(freq){
             (this.volume[0] + this.volume[1]) / 2.0,
             this.context.currentTime, 0.015);
 
-        voice.mixerNode.connect(this.context.destination);
+        // visualization
+        var WIDTH = 300;
+        var HEIGHT = 100;
+        voice.mixerNode.connect(this.analyser);
+        this.canvasCtx.clearRect(0,0, WIDTH, HEIGHT);
+        draw(WIDTH, HEIGHT, this.analyser, this.analyserData, this.canvasCtx);
+        this.analyser.connect(this.context.destination);
         
     }
 };
