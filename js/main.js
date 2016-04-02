@@ -231,15 +231,15 @@ var init = function(){
         synth.delay.enabled = !synth.delay.enabled;
     });
     var delayTime = document.getElementById('delay-time');
-    rid.noUiSlider.on('update', function(values) {
+    delayTime.noUiSlider.on('update', function(values) {
         synth.delay.delayTime = parseFloat(values[0]);
     });
     var delayFeedback = document.getElementById('delay-feedback');
-    rrd.noUiSlider.on('update', function(values) {
+    delayFeedback.noUiSlider.on('update', function(values) {
         synth.delay.feedback = parseFloat(values[0]);
     });
     var delayCutoff = document.getElementById('delay-cutoff');
-    damp.noUiSlider.on('update', function(values) {
+    delayCutoff.noUiSlider.on('update', function(values) {
         synth.delay.cutoffFreq = logScale(parseFloat(values[0]), 0, 50, 10, 20000);
     });
 

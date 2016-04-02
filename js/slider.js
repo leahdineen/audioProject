@@ -452,7 +452,7 @@ noUiSlider.create(delayFeedback, {
 
 var delayCutoff = document.getElementById('delay-cutoff');
 noUiSlider.create(delayCutoff, {
-    start: 10,
+    start: 25,
     orientation: 'vertical',
     direction: 'rtl',
     range: {
