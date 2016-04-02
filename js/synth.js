@@ -476,7 +476,7 @@ Synth.prototype.play = function(freq){
             this.context.currentTime, 0.015);
 
         // visualization
-        var WIDTH = 300;
+        var WIDTH = 800;
         var HEIGHT = 100;
         voice.mixerNode.connect(this.analyser);
         this.canvasCtx.clearRect(0,0, WIDTH, HEIGHT);
