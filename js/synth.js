@@ -238,6 +238,34 @@ Synth.prototype.play = function(freq){
             
             voice.wetnessVolume.connect(this.context.destination);
         }
+
+        // Delay
+        if (this.delay.enabled) {
+            //create delay node
+            // default time between sounds = 0.5
+            voice.delay = this.context.createDelay();
+            voice.delay.delayTime.value = this.delay.delayTime;
+
+            //create feedback, can't be 1 or the sound will never stop
+            // default gain = 0.8
+            voice.delayFeedback = this.context.createGain();
+            voice.delayFeedback.gain.value = this.delay.feedback;
+
+            //frequency lowpass filter
+            voice.delayCutoff = this.context.createBiquadFilter();
+            voice.delayCutoff.frequency.value = this.delay.cutoffFreq;
+
+            console.log(this.delay);
+
+            //connecting it all together
+            voice.delay.connect(voice.delayFeedback);
+            voice.delayFeedback.connect(voice.delayCutoff);
+            voice.delayCutoff.connect(voice.delay);
+
+            voice.mixerNode.connect(voice.delay);
+            voice.mixerNode.connect(this.context.destination);
+            voice.delay.connect(this.context.destination);
+        }
         
         // Stereo Pan
         voice.panNode = [];
