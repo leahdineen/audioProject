@@ -255,7 +255,7 @@ Synth.prototype.play = function(freq){
             voice.delayCutoff = this.context.createBiquadFilter();
             voice.delayCutoff.frequency.value = this.delay.cutoffFreq;
 
-            console.log(this.delay);
+            console.log(this.delay)
 
             //connecting it all together
             voice.delay.connect(voice.delayFeedback);
