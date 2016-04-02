@@ -190,7 +190,7 @@ function draw(w,h, analyser, analyserData, canvasCtx) {
     for(var i = 0; i < analyserData.bufferLength; i++) {
         barHeight = analyserData.dataArray[i]/2;
 
-        canvasCtx.fillStyle = 'rgb(' + (barHeight+200) + ',50,50)';
+        canvasCtx.fillStyle = 'rgb(106,27,154)';
         canvasCtx.fillRect(x,h-barHeight/2,barWidth,barHeight);
 
         x += barWidth + 1;
